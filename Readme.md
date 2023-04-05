@@ -3,7 +3,7 @@
 Example projects that make use of other 5G-MAG repositories or provide additional functionality to test and implement
 new features.
 
-## FLUTE ffmpeg
+## Express Mock AF
 
 This project provides a very simple HTTP server that implements two routes.
 
