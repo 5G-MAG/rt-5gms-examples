@@ -5,7 +5,7 @@
 This project provides a very simple HTTP server that implements two routes.
 
 The first route `m8.js` is used to return
-information about the available services and the available base URL to the Application Function. The 5GMSd Aware
+information about the available services and the available base URL of the Application Function. The 5GMSd Aware
 Application uses this route as M8 interface.
 
 The second route `service-access-information.js` provides the corresponding Service Access Information to the data that
@@ -19,7 +19,7 @@ The source can be obtained by cloning the github repository.
 
 ```
 cd ~
-git clone https://github.com/5G-MAG/rt-5gms-application/releases
+git clone https://github.com/5G-MAG/rt-5gms-examples.git
 ```
 
 ## Building
