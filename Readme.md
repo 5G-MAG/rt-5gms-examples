@@ -1,4 +1,4 @@
-# rt-5gms-examples
+# 5GMSd Examples
 
 ## Introduction
 
