@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 const m8 = {
-    m5BaseUrl: 'http://10.147.67.179:3003/3gpp-m5/v2/',
+    m5BaseUrl: 'http://192.168.178.78:3003/3gpp-m5/v2/',
+    //m5BaseUrl: 'http://10.147.67.179:3003/3gpp-m5/v2/',
     serviceList: [
         {
             provisioningSessionId: 1,
@@ -37,7 +38,11 @@ const m8 = {
                     ]
                 }
             ]
-        }
+        },
+        {
+            provisioningSessionId: 4,
+            name: 'DASH-IF + Metrics'
+        },
     ]
 
 }
