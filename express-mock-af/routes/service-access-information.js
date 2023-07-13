@@ -2,8 +2,37 @@ var express = require('express');
 var router = express.Router();
 
 const sai = {
+    5: {
+        provisioningSessionId: 5,
+        provisioningSessionType: 'DOWNLINK',
+        streamingAccess: {
+            entryPoints: [
+                {
+                    locator: 'https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd',
+                    contentType: 'application/dash+xml',
+                    profiles: [
+                        'urn:mpeg:dash:profile:isoff-live:2011'
+                    ]
+                }
+            ]
+        },
+        clientMetricsReportingConfigurations: [
+            {
+                metricsReportingConfigurationId: "metrics-id-5",
+                serverAddresses: [
+                    'http://192.168.178.78:3003/3gpp-m5/v2/',
+                    //'http://10.147.67.10'
+                ],
+                scheme: "urn:3GPP:ns:PSS:DASH:QM10",
+                dataNetworkName: "tbd",
+                reportingInterval: 10,
+                samplePercentage: 100.0,
+                urlFilters: [],
+                metrics: []
+            }]
+    },
     4: {
-        provisioningSessionId: 1,
+        provisioningSessionId: 4,
         provisioningSessionType: 'DOWNLINK',
         streamingAccess: {
             entryPoints: [
@@ -18,25 +47,14 @@ const sai = {
         },
         clientMetricsReportingConfigurations: [
             {
-                metricReportingConfigurationId: 1,
+                metricsReportingConfigurationId: "metrics-id-4",
                 serverAddresses: [
-                    'http://192.168.178.78'
+                    'http://192.168.178.78:3003/3gpp-m5/v2/',
+                    //'http://10.147.67.10'
                 ],
-                scheme: "urn:5gmag:exoplayer:combined",
+                scheme: "urn:3GPP:ns:PSS:DASH:QM10",
                 dataNetworkName: "tbd",
-                reportingInterval: "10",
-                samplePercentage: 100.0,
-                urlFilters: [],
-                metrics: []
-            },
-            {
-                metricReportingConfigurationId: 1,
-                serverAddresses: [
-                    'http://192.168.178.78'
-                ],
-                scheme: "urn:5gmag:exoplayer:unsupported",
-                dataNetworkName: "tbd",
-                reportingInterval: "10",
+                reportingInterval: 10,
                 samplePercentage: 100.0,
                 urlFilters: [],
                 metrics: []
