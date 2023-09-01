@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var saiRouter = require('./routes/service-access-information');
 var m8Router = require('./routes/m8');
+var consumpRepRouter = require('./routes/consumption-reporting');
 
 var app = express();
 
@@ -23,5 +24,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/3gpp-m5/v2/service-access-information', saiRouter )
 app.use('/m8/', m8Router )
+app.use('/3gpp-m5/v2/consumption-reporting', consumpRepRouter )
 
 module.exports = app;
