@@ -4,10 +4,10 @@ var router = express.Router();
 var querystring = require('querystring');
 var querystring = require('body-parser');
 
-/* GET users listing. */
-router.post('/:aspId', function(req, res, next) {
-  const aspId = req.params.aspId;
-  res.send("respond a resource for consumption-reporting with post for aspId:" + aspId);
+
+router.post('/:provisisioningSessionId', function(req, res, next) {
+  const provisisioningSessionId = req.params.provisisioningSessionId;
+  //res.send("respond a resource for consumption-reporting with post for provisisioningSessionId:" + provisisioningSessionId);
   
   res.send(204);
 });
