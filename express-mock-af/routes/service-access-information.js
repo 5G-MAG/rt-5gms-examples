@@ -23,7 +23,7 @@ const sai = {
         clientConsumptionReportingConfiguration: {
             serverAddresses: ['http://10.64.15.112:3003/3gpp-m5/v2/'],
             locationReporting: false,
-            samplePercentage: 60,
+            samplePercentage: 60.5,
             reportingInterval: 10,
             accessReporting: true
         }
