@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-//const baseUrl = 'http://192.168.178.78:3003';
-const baseUrl = 'http://10.147.67.10:3003';
+const baseUrl = 'http://192.168.178.20:3003';
+//const baseUrl = 'http://10.147.67.10:3003';
 const sai = {
     3: {
         provisioningSessionId: 3,
@@ -28,7 +28,24 @@ const sai = {
             samplePercentage: 99,
             reportingInterval: 10,
             accessReporting: true
-        }
+        },
+        clientMetricsReportingConfigurations: [{
+            metricsReportingConfigurationId: "QM10",
+            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
+            scheme: "urn:3GPP:ns:PSS:DASH:QM10",
+            reportingInterval: 10,
+            samplePercentage: 100.0,
+            samplingPeriod: 10
+        }, {
+            metricsReportingConfigurationId: "other",
+            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
+            scheme: "urn:some:other:scheme",
+            reportingInterval: 10,
+            samplePercentage: 100.0,
+            samplingPeriod: 10
+        }]
+
+
     },
     1: {
         provisioningSessionId: 1,
@@ -50,7 +67,22 @@ const sai = {
             samplePercentage: 100,
             reportingInterval: 10,
             accessReporting: true
-        }
+        },
+        clientMetricsReportingConfigurations: [{
+            metricsReportingConfigurationId: "QM10",
+            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
+            scheme: "urn:3GPP:ns:PSS:DASH:QM10",
+            reportingInterval: 10,
+            samplePercentage: 100.0,
+            samplingPeriod: 10
+        }, {
+            metricsReportingConfigurationId: "other",
+            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
+            scheme: "urn:some:other:scheme",
+            reportingInterval: 10,
+            samplePercentage: 100.0,
+            samplingPeriod: 10
+        }]
     }
 }
 
