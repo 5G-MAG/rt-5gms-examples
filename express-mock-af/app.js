@@ -21,7 +21,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
-app.use(bodyParser.xml());
+//app.use(bodyParser.xml());
+app.use(bodyParser.text({ type: 'application/xml' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
