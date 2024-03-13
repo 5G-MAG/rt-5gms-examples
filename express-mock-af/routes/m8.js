@@ -27,7 +27,7 @@ const m8 = {
             ]
         },
         {
-            provisioningSessionId: 3,
+            provisioningSessionId: 4,
             name: 'AWS',
             entryPoints: [
                 {
@@ -38,7 +38,15 @@ const m8 = {
                     ]
                 }
             ]
-        }
+        },
+        {
+            provisioningSessionId: 5,
+            name: 'Christmas Local'
+        },
+        {
+            provisioningSessionId: 6,
+            name: 'Sintel local'
+        },
     ]
 
 }
