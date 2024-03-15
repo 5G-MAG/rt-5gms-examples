@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
 
-const baseUrl = 'http://192.168.178.20:3003';
-//const baseUrl = 'http://10.147.67.10:3003';
+//const baseUrl = 'http://192.168.178.20:3003';
+const baseUrl = 'http://10.147.67.85:3003';
 const sai = {
     6: {
         provisioningSessionId: 6,
@@ -169,15 +170,14 @@ router.get('/:provisioningSessionId', function (req, res, next) {
     res.setHeader('Cache-Control', 'max-age=10');
     res.setHeader('Age', 2);
 
-    //Set the Expires header to 1 day from now
-    const expires = new Date();
-    expires.setDate(expires.getDate() + 1);
-    res.setHeader('Expires', expires.toUTCString());
-    
+    // Set the expiration time to be 1 hour from the current time
+    const expirationTime = moment().utc().add(10, 'second');
 
-
+    // Format the expiration time as UTC string with English month abbreviation
+    const expirationString = expirationTime.format('ddd, DD MMM YYYY HH:mm:ss [GMT]');
+    res.setHeader('Expires', expirationString);
     res.setHeader('last-modified', Date.now());
-    
+
     const id = req.params.provisioningSessionId;
     res.json(sai[id])
 });
