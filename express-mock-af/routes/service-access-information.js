@@ -56,9 +56,19 @@ const sai = {
 
 /* GET users listing. */
 router.get('/:provisioningSessionId', function (req, res, next) {
-    const id = req.params.provisioningSessionId;
-    res.setHeader('cache-control', 'max-age=5');
+    res.setHeader('Cache-Control', 'max-age=10');
+    res.setHeader('Age', 2);
+
+    //Set the Expires header to 1 day from now
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 1);
+    res.setHeader('Expires', expires.toUTCString());
+    
+
+
     res.setHeader('last-modified', Date.now());
+    
+    const id = req.params.provisioningSessionId;
     res.json(sai[id])
 });
 
