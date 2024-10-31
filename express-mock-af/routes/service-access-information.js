@@ -3,7 +3,8 @@ var router = express.Router();
 var moment = require('moment');
 
 //const baseUrl = 'http://192.168.178.20:3003';
-const baseUrl = 'http://10.147.67.85:3003';
+//const baseUrl = 'http://10.147.67.85:3003';
+const baseUrl = 'http://192.168.152.47:3003';
 const sai = {
     6: {
         provisioningSessionId: 6,
@@ -18,29 +19,7 @@ const sai = {
                     ]
                 }
             ]
-        },
-        clientConsumptionReportingConfiguration: {
-            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
-            locationReporting: true,
-            samplePercentage: 100,
-            reportingInterval: 10,
-            accessReporting: true
-        },
-        clientMetricsReportingConfigurations: [{
-            metricsReportingConfigurationId: "QM10",
-            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
-            scheme: "urn:3GPP:ns:PSS:DASH:QM10",
-            reportingInterval: 10,
-            samplePercentage: 100.0,
-            samplingPeriod: 10
-        }, {
-            metricsReportingConfigurationId: "other",
-            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
-            scheme: "urn:some:other:scheme",
-            reportingInterval: 10,
-            samplePercentage: 100.0,
-            samplingPeriod: 10
-        }]
+        }
     },
     5: {
         provisioningSessionId: 5,
@@ -55,29 +34,7 @@ const sai = {
                     ]
                 }
             ]
-        },
-        clientConsumptionReportingConfiguration: {
-            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
-            locationReporting: true,
-            samplePercentage: 100,
-            reportingInterval: 10,
-            accessReporting: true
-        },
-        clientMetricsReportingConfigurations: [{
-            metricsReportingConfigurationId: "QM10",
-            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
-            scheme: "urn:3GPP:ns:PSS:DASH:QM10",
-            reportingInterval: 10,
-            samplePercentage: 100.0,
-            samplingPeriod: 10
-        }, {
-            metricsReportingConfigurationId: "other",
-            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
-            scheme: "urn:some:other:scheme",
-            reportingInterval: 10,
-            samplePercentage: 100.0,
-            samplingPeriod: 10
-        }]
+        }
     },
     4: {
         provisioningSessionId: 4,
@@ -100,31 +57,7 @@ const sai = {
                     ]
                 }
             ]
-        },
-        clientConsumptionReportingConfiguration: {
-            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
-            locationReporting: true,
-            samplePercentage: 99,
-            reportingInterval: 10,
-            accessReporting: true
-        },
-        clientMetricsReportingConfigurations: [{
-            metricsReportingConfigurationId: "QM10",
-            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
-            scheme: "urn:3GPP:ns:PSS:DASH:QM10",
-            reportingInterval: 10,
-            samplePercentage: 100.0,
-            samplingPeriod: 10
-        }, {
-            metricsReportingConfigurationId: "other",
-            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
-            scheme: "urn:some:other:scheme",
-            reportingInterval: 10,
-            samplePercentage: 100.0,
-            samplingPeriod: 10
-        }]
-
-
+        }
     },
     1: {
         provisioningSessionId: 1,
@@ -139,29 +72,7 @@ const sai = {
                     ]
                 }
             ]
-        },
-        clientConsumptionReportingConfiguration: {
-            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
-            locationReporting: true,
-            samplePercentage: 100,
-            reportingInterval: 10,
-            accessReporting: true
-        },
-        clientMetricsReportingConfigurations: [{
-            metricsReportingConfigurationId: "QM10",
-            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
-            scheme: "urn:3GPP:ns:PSS:DASH:QM10",
-            reportingInterval: 10,
-            samplePercentage: 100.0,
-            samplingPeriod: 10
-        }, {
-            metricsReportingConfigurationId: "other",
-            serverAddresses: [`${baseUrl}/3gpp-m5/v2/`],
-            scheme: "urn:some:other:scheme",
-            reportingInterval: 10,
-            samplePercentage: 100.0,
-            samplingPeriod: 10
-        }]
+        }
     }
 }
 
