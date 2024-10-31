@@ -4,7 +4,7 @@ var router = express.Router();
 const m8 = {
     //m5BaseUrl: 'http://192.168.178.20:3003/3gpp-m5/v2/',
     //m5BaseUrl: 'http://10.147.67.85:3003/3gpp-m5/v2/',
-    m5BaseUrl : 'http://192.168.152.47:3003',
+    m5BaseUrl : 'http://192.168.152.47:3003/3gpp-m5/v2/',
     serviceList: [
         {
             provisioningSessionId: 1,
@@ -46,7 +46,7 @@ const m8 = {
         },
         {
             provisioningSessionId: 6,
-            name: '5G-MAG Christmas Video'
+            name: '5G-MAG Sintel'
         },
     ]
 
