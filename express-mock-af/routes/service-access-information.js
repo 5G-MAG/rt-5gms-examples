@@ -12,7 +12,7 @@ const sai = {
         streamingAccess: {
             entryPoints: [
                 {
-                    locator: `http://192.168.152.47:8080/out.mpd`,
+                    locator: `${baseUrl}/content/live-stream/out.mpd`,
                     contentType: 'application/dash+xml',
                     profiles: [
                         'urn:mpeg:dash:profile:isoff-live:2011'
