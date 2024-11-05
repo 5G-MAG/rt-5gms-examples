@@ -6,6 +6,21 @@ var moment = require('moment');
 //const baseUrl = 'http://10.147.67.85:3003';
 const baseUrl = 'http://192.168.152.47:3003';
 const sai = {
+    7: {
+        provisioningSessionId: 7,
+        provisioningSessionType: 'DOWNLINK',
+        streamingAccess: {
+            entryPoints: [
+                {
+                    locator: `http://192.168.152.47:8080/out.mpd`,
+                    contentType: 'application/dash+xml',
+                    profiles: [
+                        'urn:mpeg:dash:profile:isoff-live:2011'
+                    ]
+                }
+            ]
+        }
+    },
     6: {
         provisioningSessionId: 6,
         provisioningSessionType: 'DOWNLINK',

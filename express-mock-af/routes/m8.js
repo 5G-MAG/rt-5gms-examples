@@ -48,6 +48,10 @@ const m8 = {
             provisioningSessionId: 6,
             name: '5G-MAG Sintel'
         },
+        {
+            provisioningSessionId: 7,
+            name: 'FUSECO Live Stream'
+        },
     ]
 
 }
