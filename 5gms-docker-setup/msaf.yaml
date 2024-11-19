@@ -28,7 +28,7 @@ logger:
 #    level: trace
 #    domain: core,sbi,udm,event,tlv,mem,sock
 #
-logger:
+# logger:
 #    file: /home/ubuntu/af/open5gs/build/log/msaf.log
 #
 
@@ -185,7 +185,7 @@ msaf:
         - canonicalHostname: localhost
           urlPathPrefixFormat: /m4d/provisioning-session-{provisioningSessionId}/
           m3Port: 7777
-    certificateManager: @default-certmgr@
+#    certificateManager: @default-certmgr@
     serverResponseCacheControl:
         - maxAge: 60
           m1ProvisioningSessions: 60
@@ -195,7 +195,7 @@ msaf:
           m1ContentProtocols: 86400
           m1ConsumptionReportingConfiguration: 60
           m5ServiceAccessInformation: 60
-    dataCollectionDir: @data-collection-dir@
+#    dataCollectionDir: @data-collection-dir@
     offerNetworkAssistance: false
 #    networkAssistance:
 #      deliveryBoost:

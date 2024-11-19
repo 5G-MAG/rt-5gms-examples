@@ -15,10 +15,10 @@ services:
             dockerfile: Dockerfile-Application-Function
         container_name: 5gms-application-function
         ports:
-            - "127.0.0.23:7771:7777" # Maps m1 port to 7771 on the host
-            - "127.0.0.24:7772:7777" # Maps m5 port to 7772 on the host
+            - "5555:5555"
+            - "7778:7778"
         volumes:
-            - ./docker-setup/msaf.yaml:/etc/open5gs/alternate-msaf.yaml
+            - ./msaf.yaml:/etc/open5gs/alternate-msaf.yaml
         networks:
             - 5gms-network
 
