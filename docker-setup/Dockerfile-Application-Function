@@ -1,11 +1,12 @@
 # Use an official Ubuntu as a parent image
 FROM ubuntu:22.04
 
-# Set environment variables
-ENV DEBIAN_FRONTEND=noninteractive
+# Avoid any questions
+ARG DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt update && \
+    apt install -y \
     git \
     python3-pip \
     python3-venv \
@@ -18,7 +19,7 @@ RUN apt-get update && apt-get install -y \
     libsctp-dev \
     libgnutls28-dev \
     libgcrypt-dev \
-    libssl-dev \
+    libssl-dev  \
     libidn11-dev \
     libmongoc-dev \
     libbson-dev \
@@ -26,14 +27,14 @@ RUN apt-get update && apt-get install -y \
     libnghttp2-dev \
     libmicrohttpd-dev \
     libcurl4-gnutls-dev \
+    libnghttp2-dev \
     libtins-dev \
     libtalloc-dev \
     libpcre2-dev \
     curl \
     wget \
     default-jdk \
-    cmake && \
-    rm -rf /var/lib/apt/lists/*
+    cmake
 
 # Install Meson
 RUN python3 -m pip install meson
@@ -42,22 +43,19 @@ RUN python3 -m pip install meson
 RUN python3 -m pip install build pyOpenSSL
 
 # Clone the repository
-RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application-function.git /opt/rt-5gms-application-function
+RUN git clone --recurse-submodules --branch test/docker https://github.com/5G-MAG/rt-5gms-application-function.git /rt-5gms-application-function
 
 # Set working directory
-WORKDIR /opt/rt-5gms-application-function
+WORKDIR /rt-5gms-application-function
 
 # Update submodules
 RUN git submodule update
 
 # Build the application
-RUN meson build && ninja -C build
+RUN meson build -Dcpp_args=-Wno-error && ninja -C build
 
 # Install the application
 RUN meson install --no-rebuild -C build
-
-# Expose necessary ports (if any)
-# EXPOSE <port_number>
 
 # Command to run the application with the configuration file
 CMD ["/usr/local/bin/open5gs-msafd", "-c", "/etc/open5gs/alternate-msaf.yaml"]
