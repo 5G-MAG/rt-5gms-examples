@@ -182,7 +182,7 @@ msaf:
         - addr: 127.0.0.25
           port: 7777
     applicationServers:
-        - canonicalHostname: 172.18.0.3
+        - canonicalHostname: application-server
           urlPathPrefixFormat: /m4d/provisioning-session-{provisioningSessionId}/
           m3Port: 7777
 #    certificateManager: @default-certmgr@

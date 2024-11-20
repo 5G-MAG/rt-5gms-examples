@@ -3,28 +3,20 @@ services:
         build:
             context: ./
             dockerfile: Dockerfile-Application-Server
-        container_name: 5gms-application-server
         ports:
             - "8080:8080"
-            - "7777:7777"
         volumes:
             - ./application-server.conf:/etc/5gmag/as/conf/application-server.conf
-        networks:
-            - 5gms-network
 
     application-function:
         build:
             context: ./
             dockerfile: Dockerfile-Application-Function
-        container_name: 5gms-application-function
         ports:
             - "5555:5555"
             - "7778:7778"
         volumes:
             - ./msaf.yaml:/etc/open5gs/alternate-msaf.yaml
-        networks:
-            - 5gms-network
 
-networks:
-    5gms-network:
-        driver: bridge
+
+# See: https://docs.docker.com/compose/how-tos/networking/
