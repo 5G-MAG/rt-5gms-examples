@@ -35,4 +35,4 @@ RUN python3 -m pip install --upgrade pip setuptools && \
     python3 -m pip install .
 
 # Command to run the application
-CMD ["5gms-application-server"]
+CMD ["5gms-application-server","-c","/etc/5gmag/as/conf/application-server.conf"]

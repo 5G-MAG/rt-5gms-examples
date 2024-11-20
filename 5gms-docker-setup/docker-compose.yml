@@ -5,7 +5,10 @@ services:
             dockerfile: Dockerfile-Application-Server
         container_name: 5gms-application-server
         ports:
-            - "8080:80" # Maps port 80 on the container to port 8080 on the host
+            - "8080:8080"
+            - "7777:7777"
+        volumes:
+            - ./application-server.conf:/etc/5gmag/as/conf/application-server.conf
         networks:
             - 5gms-network
 
