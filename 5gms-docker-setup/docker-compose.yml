@@ -4,7 +4,7 @@ services:
             context: ./
             dockerfile: Dockerfile-Application-Server
         ports:
-            - "8080:8080"
+            - "8080:80"
         volumes:
             - ./application-server.conf:/etc/5gmag/as/conf/application-server.conf
 
@@ -15,6 +15,7 @@ services:
         ports:
             - "5555:5555"
             - "7778:7778"
+            - "4444:4444"
         volumes:
             - ./msaf.yaml:/etc/open5gs/alternate-msaf.yaml
 
