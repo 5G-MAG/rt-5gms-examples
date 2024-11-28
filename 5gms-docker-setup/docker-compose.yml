@@ -4,7 +4,7 @@ services:
             context: ./
             dockerfile: Dockerfile-Application-Server
         ports:
-            - "8080:80"
+            - "80:80"
         volumes:
             - ./application-server.conf:/etc/5gmag/as/conf/application-server.conf
 
