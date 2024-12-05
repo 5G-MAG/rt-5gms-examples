@@ -12,6 +12,14 @@ new features for 5GMS.
 
 Additional information can be found at: https://5g-mag.github.io/Getting-Started/pages/5g-media-streaming/
 
+## 5G Media Streaming - Docker Compose Setup
+
+This project provides a docker-compose setup to run the 5GMS Application Function and the 5GMS Application Server
+components in a local container environment. The setup includes
+Docker files for the Application Function and the Application Server. In addition, it includes a Docker Compose file to
+connect the two components. The configuration files included in this project can be edited on the host machine and
+are mounted to the respective Docker container during runtime.
+
 ## Express Mock AF
 
 This project provides a very simple HTTP server that implements two routes.
