@@ -1,0 +1,23 @@
+services:
+    application-server:
+        build:
+            context: ./
+            dockerfile: Dockerfile-Application-Server
+        ports:
+            - "80:80"
+        volumes:
+            - ./application-server.conf:/etc/5gmag/as/conf/application-server.conf
+
+    application-function:
+        build:
+            context: ./
+            dockerfile: Dockerfile-Application-Function
+        ports:
+            - "5555:5555"
+            - "7778:7778"
+            - "4444:4444"
+        volumes:
+            - ./msaf.yaml:/etc/open5gs/alternate-msaf.yaml
+
+
+# See: https://docs.docker.com/compose/how-tos/networking/
