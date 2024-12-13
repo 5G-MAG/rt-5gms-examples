@@ -14,7 +14,12 @@ RUN apt-get update && \
 # Install Openresty
 RUN apt-get -y install --no-install-recommends wget gnupg ca-certificates lsb-release && \
     wget -O - https://openresty.org/package/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/openresty.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/arm64/ubuntu $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/openresty.list > /dev/null && \
+    ARCH=$(dpkg --print-architecture) && \
+    if [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then \
+        echo "deb [arch=$ARCH signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/arm64/ubuntu $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/openresty.list > /dev/null; \
+    else \
+        echo "deb [arch=$ARCH signed-by=/usr/share/keyrings/openresty.gpg] http://openresty.org/package/ubuntu $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/openresty.list > /dev/null; \
+    fi && \
     apt-get update  && \
     apt-get -y install openresty
 
