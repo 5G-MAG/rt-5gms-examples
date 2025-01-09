@@ -7,6 +7,7 @@ services:
             - "80:80"
         volumes:
             - ./application-server.conf:/etc/5gmag/as/conf/application-server.conf
+            - ./shared:/shared
 
     application-function:
         build:
@@ -18,6 +19,18 @@ services:
             - "4444:4444"
         volumes:
             - ./msaf.yaml:/etc/open5gs/alternate-msaf.yaml
+
+    application-provider:
+        build:
+            context: ./
+            dockerfile: Dockerfile-Application-Provider
+        volumes:
+            - ./af-sync.conf:/etc/rt-5gms/af-sync.conf
+            - ./streams.json:/etc/rt-5gms/streams.json
+            - ./shared:/shared
+        depends_on:
+            - application-function
+            - application-server
 
 
 # See: https://docs.docker.com/compose/how-tos/networking/
