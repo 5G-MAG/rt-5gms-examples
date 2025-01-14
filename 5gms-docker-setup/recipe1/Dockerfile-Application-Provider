@@ -1,0 +1,25 @@
+# Use Ubuntu 22.04 as a parent image
+FROM ubuntu:22.04
+
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    git \
+    python3-pip \
+    python3-venv \
+    wget \
+    default-jdk \
+    && apt-get clean
+
+# Clone the repository
+RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application-provider
+
+# Set working directory
+WORKDIR /rt-5gms-application-provider
+
+# Install Python dependencies
+RUN python3 -m pip install --upgrade pip setuptools && \
+    python3 -m pip install ./python
+
+# Command to run the application
+CMD ["sh", "-c", "/usr/local/bin/m1-session configure set m1_port 5555 && /usr/local/bin/m1-session configure set m1_address application-function && /usr/local/bin/msaf-configuration"]

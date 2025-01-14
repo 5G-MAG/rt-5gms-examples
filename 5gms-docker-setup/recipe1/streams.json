@@ -1,0 +1,60 @@
+{
+  "aspId": "5GMAG",
+  "appId": "5G-MAG_Reference_Tools",
+  "streams": {
+    "vod": {
+      "name": "BBC R&D Demo Streams",
+      "ingestURL": "https://rdmedia.bbc.co.uk/",
+      "distributionConfigurations": [
+        {
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>"
+        }
+      ]
+    }
+  },
+  "vodMedia": [
+    {
+      "name": "VoD: Elephant's Dream",
+      "stream": "vod",
+      "entryPoints": [
+        {
+          "relativePath": "elephants_dream/1/client_manifest-all.mpd",
+          "contentType": "application/dash+xml",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "VoD: Big Buck Bunny",
+      "stream": "vod",
+      "entryPoints": [
+        {
+          "relativePath": "bbb/2/client_manifest-common_init.mpd",
+          "contentType": "application/dash+xml",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "VoD: Testcard",
+      "stream": "vod",
+      "entryPoints": [
+        {
+          "relativePath": "testcard/vod/manifests/avc-full.mpd",
+          "contentType": "application/dash+xml",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
+        },
+        {
+          "relativePath": "testcard/vod/manifests/avc-full.m3u8",
+          "contentType": "application/x-mpegURL"
+        }
+      ]
+    }
+  ]
+}
