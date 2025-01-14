@@ -96,3 +96,15 @@ By default the following ports are exposed to the host machine:
 * Application Function `M5` interface: Port `7778`
 * Application Server `M4` interface: Port `80`
 
+## FAQ
+
+### `m8.json` is not created
+
+Error message: ` FileNotFoundError: [Errno 2] No such file or directory: '/shared/<<SOME_IP>>/m8.json'`
+
+If you run into an issue where the `m8.json` is not created, make sure that the right folders are created inside the
+`shared`
+folder. There should be a `localhost` folder, and inside that folder, there should be a `m8.json` file. In addition, a
+similar folder with the IP of your host machine should be created. It also contains an `m8.json` file.
+
+If one or both of these folders are missing, create them manually and run `docker compose up` again.
