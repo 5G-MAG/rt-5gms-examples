@@ -24,6 +24,8 @@ services:
         build:
             context: ./
             dockerfile: Dockerfile-Application-Provider
+        ports:
+            - "8000:8000"
         volumes:
             - ./af-sync.conf:/etc/rt-5gms/af-sync.conf
             - ./streams.json:/etc/rt-5gms/streams.json
@@ -31,6 +33,10 @@ services:
         depends_on:
             - application-function
             - application-server
+        environment:
+            - M1_PORT=5555
+            - RUN_MSAF_CONFIGURATION_TOOL=true
+            - RUN_MANAGEMENT_UI=true
 
 
 # See: https://docs.docker.com/compose/how-tos/networking/

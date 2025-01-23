@@ -21,5 +21,14 @@ WORKDIR /rt-5gms-application-provider
 RUN python3 -m pip install --upgrade pip setuptools && \
     python3 -m pip install ./python
 
-# Command to run the application
-CMD ["sh", "-c", "/usr/local/bin/m1-session configure set m1_port 5555 && /usr/local/bin/m1-session configure set m1_address application-function && /usr/local/bin/msaf-configuration"]
+# Install Management UI
+RUN python3 -m pip install -r management-ui/requirements.txt
+
+# Copy the entrypoint script
+COPY application-provider-entrypoint.sh /usr/local/bin/application-provider-entrypoint.sh
+
+# Set execute permissions for the entrypoint script
+RUN chmod +x /usr/local/bin/application-provider-entrypoint.sh
+
+# Set the entrypoint
+ENTRYPOINT ["/usr/local/bin/application-provider-entrypoint.sh"]
