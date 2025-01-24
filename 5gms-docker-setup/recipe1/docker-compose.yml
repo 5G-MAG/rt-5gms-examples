@@ -35,8 +35,9 @@ services:
             - application-server
         environment:
             - M1_PORT=5555
-            - RUN_MSAF_CONFIGURATION_TOOL=false
+            - RUN_MSAF_CONFIGURATION_TOOL=true
             - RUN_MANAGEMENT_UI=true
+            - OPTIONS_ENDPOINT=http://application-function:5555/3gpp-m1/v2/provisioning-sessions/
 
 
 # See: https://docs.docker.com/compose/how-tos/networking/

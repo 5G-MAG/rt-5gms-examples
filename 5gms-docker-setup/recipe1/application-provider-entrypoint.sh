@@ -1,12 +1,12 @@
 #!/bin/sh
 
 # Set right port and IP
-/usr/local/bin/m1-session configure set m1_port $M1_PORT
-/usr/local/bin/m1-session configure set m1_address application-function
+m1-session configure set m1_port $M1_PORT
+m1-session configure set m1_address application-function
 
 # Run the msaf-configuration tool if the flag is set
 if [ "$RUN_MSAF_CONFIGURATION_TOOL" = "true" ]; then
-    /usr/local/bin/msaf-configuration
+    msaf-configuration
 else
     echo "RUN_MSAF_CONFIGURATION_TOOL flag disabled, not executing msaf configuration"
 fi
