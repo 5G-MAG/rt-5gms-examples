@@ -35,7 +35,7 @@ services:
             - application-server
         environment:
             - M1_PORT=5555
-            - RUN_MSAF_CONFIGURATION_TOOL=true
+            - RUN_MSAF_CONFIGURATION_TOOL=false
             - RUN_MANAGEMENT_UI=true
 
 

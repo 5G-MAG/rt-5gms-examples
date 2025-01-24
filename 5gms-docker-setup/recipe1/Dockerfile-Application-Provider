@@ -1,5 +1,5 @@
 # Use Ubuntu 22.04 as a parent image
-FROM ubuntu:22.04
+FROM ubuntu:latest
 
 # Install dependencies
 RUN apt-get update && \
@@ -17,12 +17,15 @@ RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application
 # Set working directory
 WORKDIR /rt-5gms-application-provider
 
-# Install Python dependencies
-RUN python3 -m pip install --upgrade pip setuptools && \
+# Create and activate virtual environment
+RUN python3 -m venv /opt/venv && \
+    . /opt/venv/bin/activate && \
+    python3 -m pip install --upgrade pip setuptools && \
+    python3 -m pip install -r management-ui/requirements.txt && \
     python3 -m pip install ./python
 
-# Install Management UI
-RUN python3 -m pip install -r management-ui/requirements.txt
+# Set the PATH environment variable to include the virtual environment
+ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy the entrypoint script
 COPY application-provider-entrypoint.sh /usr/local/bin/application-provider-entrypoint.sh
