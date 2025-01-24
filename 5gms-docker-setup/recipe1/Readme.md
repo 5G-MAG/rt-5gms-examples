@@ -65,13 +65,19 @@ Start Docker Compose to build the containers and start the services:
 
 ## Usage
 
-### Default
+### msaf-configuration
 
-By default, the `msaf-configuration` tool is executed when you launch the Docker containers via `docker compose up`. The
+If `RUN_MSAF_CONFIGURATION_TOOL` is enabled in the `docker-compose.yaml` , the `msaf-configuration` tool is executed
+when you launch the Docker containers via `docker compose up`. The
 `msaf-configuration` tool uses the `streams.json` to create provisioning sessions and content hosting configurations via
 the `M1` endpoint of the `Application Function`. It
 also creates an `m8.json` that serves as the starting point for the 5GMS Aware Application. For details refer to
 the [Tutorial - 5GMSd: Basic end to end setup](https://5g-mag.github.io/Getting-Started/pages/5g-media-streaming/tutorials/end-to-end.html)
+
+### Management UI
+
+If `RUN_MANAGEMENT_UI` in the `docker-compose.yaml` is set to `true`, the 5GMS Application Provider Management UI is
+started and available at `http://127.0.0.1:8000/`.
 
 ### External REST client
 
