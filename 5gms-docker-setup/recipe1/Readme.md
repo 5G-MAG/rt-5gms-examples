@@ -20,6 +20,8 @@ and exposes reference points `M4` and `M5`.
 
 ## Required Configuration
 
+### Configuration files
+
 You need to provide two configuration changes to the `af-sync.conf` and the `streams.json` file.
 
 In `af-sync.conf` add the IP of your host machine by replacing `<<ADD_YOUR_IP_HERE>>` e.g.:
