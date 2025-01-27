@@ -8,7 +8,6 @@ services:
         volumes:
             - ./application-server.conf:/etc/5gmag/as/conf/application-server.conf
             - ./shared:/shared
-            - ./shared/reports:/usr/local/var/log/open5gs/reports
 
     application-function:
         build:
@@ -20,6 +19,7 @@ services:
             - "4444:4444"
         volumes:
             - ./msaf.yaml:/etc/open5gs/alternate-msaf.yaml
+            - ./af-reports:/af-reports
         depends_on:
             - application-server
 
