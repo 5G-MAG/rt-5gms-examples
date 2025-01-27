@@ -58,5 +58,9 @@ RUN meson build && ninja -C build
 # Install the application
 RUN meson install --no-rebuild -C build
 
+# Create the shared/reports directory and set permissions
+RUN mkdir -p /usr/local/var/log/open5gs/reports && \
+    chmod -R 777 /usr/local/var/log/open5gs/reports
+
 # Command to run the application with the configuration file
 CMD ["/usr/local/bin/open5gs-msafd", "-c", "/etc/open5gs/alternate-msaf.yaml"]

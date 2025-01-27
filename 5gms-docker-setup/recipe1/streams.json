@@ -9,6 +9,19 @@
         {
           "domainNameAlias": "<<ADD_YOUR_IP_HERE>>"
         }
+      ],
+      "consumptionReporting": {
+        "reportingInterval": 5,
+        "samplePercentage": 100,
+        "locationReporting": true,
+        "accessReporting": true
+      },
+      "metricsReporting":[
+        {
+          "reportingInterval":5,
+          "samplePercentage":100,
+          "samplingPeriod":5
+        }
       ]
     }
   },
