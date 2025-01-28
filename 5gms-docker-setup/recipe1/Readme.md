@@ -16,7 +16,9 @@ are mounted to the respective Docker container during runtime.
 
 The architecture of this Docker setup corresponds to 3GPP TS 26.501 A.3: Downlink media streaming with both AF and AS
 deployed in an external Data Network (OTT). The Docker compose file starts all Docker containers on a single machine
-and exposes reference points `M4` and `M5`.
+and exposes reference points `M1`, `M4`, `M5` and `M8`.
+
+![Architecture Diagram](img/5gms-docker-recipe1.png)
 
 ## Required Configuration
 
