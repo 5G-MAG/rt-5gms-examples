@@ -1,0 +1,46 @@
+services:
+    application-server:
+        build:
+            context: ./
+            dockerfile: Dockerfile-Application-Server
+        ports:
+            - "80:80"
+        volumes:
+            - ./application-server.conf:/etc/5gmag/as/conf/application-server.conf
+            - ./shared:/shared
+
+    application-function:
+        build:
+            context: ./
+            dockerfile: Dockerfile-Application-Function
+        ports:
+            - "5555:5555"
+            - "7778:7778"
+            - "4444:4444"
+        volumes:
+            - ./msaf.yaml:/etc/open5gs/alternate-msaf.yaml
+            - ./af-reports:/af-reports
+        depends_on:
+            - application-server
+
+    application-provider:
+        build:
+            context: ./
+            dockerfile: Dockerfile-Application-Provider
+        ports:
+            - "8000:8000"
+        volumes:
+            - ./af-sync.conf:/etc/rt-5gms/af-sync.conf
+            - ./streams.json:/etc/rt-5gms/streams.json
+            - ./shared:/shared
+        depends_on:
+            - application-function
+            - application-server
+        environment:
+            - M1_PORT=5555
+            - RUN_MSAF_CONFIGURATION_TOOL=true
+            - RUN_MANAGEMENT_UI=true
+            - OPTIONS_ENDPOINT=http://application-function:5555/3gpp-m1/v2/provisioning-sessions/
+
+
+# See: https://docs.docker.com/compose/how-tos/networking/

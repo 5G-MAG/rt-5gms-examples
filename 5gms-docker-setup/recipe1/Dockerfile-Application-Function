@@ -1,0 +1,66 @@
+# Use an official Ubuntu as a parent image
+FROM ubuntu:24.04
+
+# Avoid any questions
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    bison  \
+    build-essential  \
+    curl  \
+    flex  \
+    git  \
+    default-jdk  \
+    ninja-build wget \
+    python3-pip  \
+    python3-venv  \
+    python3-setuptools  \
+    python3-wheel  \
+    python3-yaml \
+    python3-aiofiles  \
+    python3-build  \
+    python3-h11  \
+    python3-h2  \
+    python3-httpx\
+    python3-openssl \
+    libsctp-dev  \
+    libgnutls28-dev  \
+    libgcrypt-dev  \
+    libssl-dev  \
+    libidn11-dev \
+    libmongoc-dev  \
+    libbson-dev  \
+    libyaml-dev  \
+    libnghttp2-dev  \
+    libmicrohttpd-dev \
+    libcurl4-gnutls-dev  \
+    libnghttp2-dev  \
+    libtins-dev  \
+    libtalloc-dev cmake \
+    libpcre2-dev
+
+RUN apt-get update && apt-get install -y meson python3-venv python3-pip
+
+# Clone the repository
+RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application-function.git
+
+# Set working directory
+WORKDIR /rt-5gms-application-function
+
+# Update submodules
+RUN git submodule update
+
+# Build the application
+RUN meson build && ninja -C build
+
+# Install the application
+RUN meson install --no-rebuild -C build
+
+# Create the shared/reports directory and set permissions
+RUN mkdir -p /usr/local/var/log/open5gs/reports && \
+    chmod -R 777 /usr/local/var/log/open5gs/reports
+
+# Command to run the application with the configuration file
+CMD ["/usr/local/bin/open5gs-msafd", "-c", "/etc/open5gs/alternate-msaf.yaml"]

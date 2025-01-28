@@ -1,0 +1,37 @@
+# Use Ubuntu 24.04 as a parent image
+FROM ubuntu:24.04
+
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    git \
+    python3-pip \
+    python3-venv \
+    wget \
+    default-jdk \
+    && apt-get clean
+
+# Clone the repository
+RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application-provider
+
+# Set working directory
+WORKDIR /rt-5gms-application-provider
+
+# Create and activate virtual environment
+RUN python3 -m venv /opt/venv && \
+    . /opt/venv/bin/activate && \
+    python3 -m pip install --upgrade pip setuptools && \
+    python3 -m pip install -r management-ui/requirements.txt && \
+    python3 -m pip install ./python
+
+# Set the PATH environment variable to include the virtual environment
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy the entrypoint script
+COPY application-provider-entrypoint.sh /usr/local/bin/application-provider-entrypoint.sh
+
+# Set execute permissions for the entrypoint script
+RUN chmod +x /usr/local/bin/application-provider-entrypoint.sh
+
+# Set the entrypoint
+ENTRYPOINT ["/usr/local/bin/application-provider-entrypoint.sh"]
