@@ -20,6 +20,8 @@ Docker files for the Application Function and the Application Server. In additio
 connect the two components. The configuration files included in this project can be edited on the host machine and
 are mounted to the respective Docker container during runtime.
 
+Information can be found [here](./5gms-docker-setup/).
+
 ## Express Mock AF
 
 This project provides a very simple HTTP server that implements two routes.
@@ -32,3 +34,5 @@ The second route `service-access-information.js` provides the corresponding Serv
 is returned via M8.
 
 This server is intended to be used for development when static responses are enough to implement or test a new feature.
+
+Information can be found [here](./express-mock-af/).
