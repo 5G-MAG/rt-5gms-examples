@@ -8,6 +8,7 @@ services:
         volumes:
             - ./application-server.conf:/etc/5gmag/as/conf/application-server.conf
             - ./shared:/shared
+            - ./logs/as:/var/log/rt-5gms
 
     application-function:
         build:
