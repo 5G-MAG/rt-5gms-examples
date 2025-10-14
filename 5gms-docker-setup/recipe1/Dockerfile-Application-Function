@@ -41,7 +41,10 @@ RUN apt-get update && \
     libtalloc-dev cmake \
     libpcre2-dev
 
-RUN apt-get update && apt-get install -y meson python3-venv python3-pip
+RUN apt-get update && apt-get install -y python3-venv python3-pip
+
+# Install Meson
+RUN python3 -m pip install --break-system-packages --upgrade meson
 
 # Clone the repository
 RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application-function.git
