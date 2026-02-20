@@ -30,14 +30,14 @@ services:
         ports:
             - "8000:8000"
         volumes:
-            - ./af-sync.conf:/etc/rt-5gms/af-sync.conf
             - ./streams.json:/etc/rt-5gms/streams.json
-            - ./shared:/shared
+            - ./shared/<ADD_YOUR_IP_HERE>:/usr/share/nginx/html
         depends_on:
             - application-function
             - application-server
         environment:
             - M1_PORT=5555
+            - M5_AUTHORITY=192.168.178.56:7778
             - RUN_MSAF_CONFIGURATION_TOOL=true
             - RUN_MANAGEMENT_UI=true
             - OPTIONS_ENDPOINT=http://application-function:5555/3gpp-m1/v2/provisioning-sessions/

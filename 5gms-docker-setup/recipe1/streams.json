@@ -7,7 +7,7 @@
       "ingestURL": "https://rdmedia.bbc.co.uk/",
       "distributionConfigurations": [
         {
-          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>"
+          "domainNameAlias": "192.168.178.56"
         }
       ],
       "consumptionReporting": {
