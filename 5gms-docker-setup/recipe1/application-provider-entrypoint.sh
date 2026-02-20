@@ -3,6 +3,7 @@
 # Set right port and IP
 m1-session configure set m1_port $M1_PORT
 m1-session configure set m1_address application-function
+m1-session configure set m5_authority $M5_AUTHORITY
 
 # Run the msaf-configuration tool if the flag is set
 if [ "$RUN_MSAF_CONFIGURATION_TOOL" = "true" ]; then
