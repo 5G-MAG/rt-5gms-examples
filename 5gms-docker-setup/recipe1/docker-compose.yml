@@ -30,7 +30,7 @@ services:
         ports:
             - "8000:8000"
         volumes:
-            - ./streams.json:/etc/rt-5gms/streams.json
+            - ./initial-config.json:/etc/rt-5gms/initial-config.json
             - ./shared/<ADD_YOUR_IP_HERE>:/usr/share/nginx/html
         depends_on:
             - application-function
