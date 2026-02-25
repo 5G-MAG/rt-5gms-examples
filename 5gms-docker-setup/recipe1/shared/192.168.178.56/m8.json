@@ -1,0 +1,48 @@
+{
+  "m5BaseUrl": "http://192.168.178.56:7778/3gpp-m5/v2/",
+  "serviceList": [
+    {
+      "provisioningSessionId": "9e87e0ba-122a-41f1-bccb-6784ecbb4f65",
+      "name": "VoD: Elephant's Dream",
+      "entryPoints": [
+        {
+          "locator": "http://192.168.178.56/m4d/provisioning-session-9e87e0ba-122a-41f1-bccb-6784ecbb4f65/elephants_dream/1/client_manifest-all.mpd",
+          "contentType": "application/dash+xml",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
+        }
+      ]
+    },
+    {
+      "provisioningSessionId": "9e87e0ba-122a-41f1-bccb-6784ecbb4f65",
+      "name": "VoD: Big Buck Bunny",
+      "entryPoints": [
+        {
+          "locator": "http://192.168.178.56/m4d/provisioning-session-9e87e0ba-122a-41f1-bccb-6784ecbb4f65/bbb/2/client_manifest-common_init.mpd",
+          "contentType": "application/dash+xml",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
+        }
+      ]
+    },
+    {
+      "provisioningSessionId": "9e87e0ba-122a-41f1-bccb-6784ecbb4f65",
+      "name": "VoD: Testcard",
+      "entryPoints": [
+        {
+          "locator": "http://192.168.178.56/m4d/provisioning-session-9e87e0ba-122a-41f1-bccb-6784ecbb4f65/testcard/vod/manifests/avc-full.mpd",
+          "contentType": "application/dash+xml",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
+        },
+        {
+          "locator": "http://192.168.178.56/m4d/provisioning-session-9e87e0ba-122a-41f1-bccb-6784ecbb4f65/testcard/vod/manifests/avc-full.m3u8",
+          "contentType": "application/x-mpegURL"
+        }
+      ]
+    }
+  ]
+}

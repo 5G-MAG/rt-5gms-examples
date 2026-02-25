@@ -31,7 +31,7 @@ services:
             - "8000:8000"
         volumes:
             - ./streams.json:/etc/rt-5gms/streams.json
-            - ./shared/<ADD_YOUR_IP_HERE>:/usr/share/nginx/html
+            - ./shared/192.168.178.56:/usr/share/nginx/html
         depends_on:
             - application-function
             - application-server
