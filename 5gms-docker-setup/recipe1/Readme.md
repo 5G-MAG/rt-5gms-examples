@@ -24,15 +24,15 @@ and exposes reference points `M1`, `M4`, `M5` and `M8`.
 
 ### Configuration files
 
-You need to provide two configuration changes to the `af-sync.conf` and the `streams.json` file.
+You need to provide two configuration changes to the `media.conf` and the `initial-config.json` file.
 
-In `af-sync.conf` add the IP of your host machine by replacing `<<ADD_YOUR_IP_HERE>>` e.g.:
+In `media.conf` add the IP of your host machine by replacing `<<ADD_YOUR_IP_HERE>>` e.g.:
 
 ````
 m5_authority = 10.147.67.219:7778
 ````
 
-In `streams.json` add the IP of your host machine by replacing `<<ADD_YOUR_IP_HERE>>` e.g.:
+In `initial-config.json` add the IP of your host machine by replacing `<<ADD_YOUR_IP_HERE>>` e.g.:
 
 ````
 "domainNameAlias": "10.147.67.219"
