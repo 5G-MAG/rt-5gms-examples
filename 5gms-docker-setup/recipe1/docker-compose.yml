@@ -14,9 +14,10 @@ services:
             context: ./
             dockerfile: Dockerfile-Application-Function
         ports:
-            - "5555:5555"
-            - "7778:7778"
+            - "5555:5555" # M1 Port
+            - "7778:7778" # M5 Port
             - "4444:4444"
+            - "6464:6464" # MAF port
         volumes:
             - ./msaf.yaml:/etc/open5gs/alternate-msaf.yaml
             - ./af-reports:/af-reports
@@ -30,14 +31,14 @@ services:
         ports:
             - "8000:8000"
         volumes:
-            - ./streams.json:/etc/rt-5gms/streams.json
-            - ./shared/<ADD_YOUR_IP_HERE>:/usr/share/nginx/html
+            - ./initial-config.json:/etc/rt-5gms/initial-config.json
+            - ./media.conf:/etc/rt-5gms/media.conf
+            - ./shared:/usr/share/nginx/html
         depends_on:
             - application-function
             - application-server
         environment:
             - M1_PORT=5555
-            - M5_AUTHORITY=192.168.178.56:7778
             - RUN_MSAF_CONFIGURATION_TOOL=true
             - RUN_MANAGEMENT_UI=true
             - OPTIONS_ENDPOINT=http://application-function:5555/3gpp-m1/v2/provisioning-sessions/

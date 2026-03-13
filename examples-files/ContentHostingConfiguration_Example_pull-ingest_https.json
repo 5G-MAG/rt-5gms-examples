@@ -1,0 +1,25 @@
+{
+	"name": "Demo Stream",
+	"ingestConfiguration": {
+		"pull": true,
+		"protocol": "urn:3gpp:5gms:content-protocol:http-pull-ingest",
+		"baseURL": "http://example.domain/"
+	},
+	"distributionConfigurations": [
+		{
+			"certificateId": "@certificate-id@",
+			"entryPoint": {
+				"relativePath": "examples/manifest.mpd",
+				"contentType": "application/dash+xml",
+				"profiles": ["urn:mpeg:dash:profile:isoff-live:2011"]
+			}
+		},
+		{
+			"certificateId": "@certificate-id@",
+            "entryPoint": {
+                "relativePath": "examples/manifest.m3u8",
+                "contentType": "application/vnd.apple.mpegurl"
+            }
+		}
+	]
+}

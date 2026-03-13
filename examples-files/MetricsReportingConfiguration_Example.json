@@ -1,0 +1,14 @@
+{
+   "scheme": "urn:3GPP:ns:PSS:DASH:QM10",
+   "dataNetworkName": "",
+   "reportingInterval": 10,
+   "samplePercentage": 100,
+   "urlFilters": [],
+   "samplingPeriod": 5,
+   "metrics": [
+      "urn:3GPP:ns:PSS:DASH:QM10#HTTPList",
+      "urn:3GPP:ns:PSS:DASH:QM10#BufferLevel",
+      "urn:3GPP:ns:PSS:DASH:QM10#RepSwitchList",
+      "urn:3GPP:ns:PSS:DASH:QM10#MPDInformation"
+   ]
+}
