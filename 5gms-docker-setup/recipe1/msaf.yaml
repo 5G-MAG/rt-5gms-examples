@@ -179,8 +179,8 @@ msaf:
         - addr: 0.0.0.0
           port: 7778
     maf:
-        - addr: 127.0.0.25
-          port: 7777
+        - addr: 0.0.0.0
+          port: 6464
     applicationServers:
         - canonicalHostname: localhost
           urlPathPrefixFormat: /m4d/provisioning-session-{provisioningSessionId}/
