@@ -14,8 +14,8 @@ services:
             context: ./
             dockerfile: Dockerfile-Application-Function
         ports:
-            - "5555:5555" #M1 Port
-            - "7778:7778" #M5 Port
+            - "5555:5555" # M1 Port
+            - "7778:7778" # M5 Port
             - "4444:4444"
             - "6464:6464" # MAF port
         volumes:
