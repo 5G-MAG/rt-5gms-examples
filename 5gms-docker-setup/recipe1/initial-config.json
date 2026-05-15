@@ -7,7 +7,7 @@
       "ingestURL": "https://rdmedia.bbc.co.uk/",
       "distributionConfigurations": [
         {
-          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>"
+          "domainNameAlias": "192.168.178.56"
         }
       ],
       "consumptionReporting": {
@@ -29,7 +29,7 @@
       "ingestURL": "https://media.axprod.net/",
       "distributionConfigurations": [
         {
-          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>"
+          "domainNameAlias": "192.168.178.56"
         }
       ],
       "consumptionReporting": {
@@ -51,7 +51,7 @@
       "ingestURL": "https://rt.5g-mag.com/",
       "distributionConfigurations": [
         {
-          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>"
+          "domainNameAlias": "192.168.178.56"
         }
       ],
       "consumptionReporting": {
