@@ -12,7 +12,7 @@ RUN apt-get update && \
     && apt-get clean
 
 # Clone the repository
-RUN git clone --recurse-submodules -b development https://github.com/5G-MAG/rt-5gms-application-provider.git /rt-5gms-application-provider
+RUN git clone --recurse-submodules -b feature/102-track-external-provisioning-sessions https://github.com/5G-MAG/rt-5gms-application-provider.git /rt-5gms-application-provider
 
 # Set working directory
 WORKDIR /rt-5gms-application-provider

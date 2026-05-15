@@ -42,8 +42,21 @@ services:
             - M1_PORT=5555
             - RUN_MSAF_CONFIGURATION_TOOL=true
             - RUN_MANAGEMENT_UI=true
-            - USE_MAF_CLIENT_CONF=false
+            - USE_MAF_CLIENT_CONF=true
             - OPTIONS_ENDPOINT=http://application-function:5555/3gpp-m1/v2/provisioning-sessions/
+    simple-express-server:
+        build:
+            context: ./
+            dockerfile: Dockerfile-Simple-Express-Server
+        ports:
+            - "3344:3344"
+        volumes:
+            - ./simple-express-server.conf:/etc/5gmag/ses/conf/simple-express-server.conf:ro
+            - ./simple-express-public:/opt/simple-express-server/public
+        depends_on:
+            - application-function
+            - application-server
+            - application-provider
 
 
 # See: https://docs.docker.com/compose/how-tos/networking/
