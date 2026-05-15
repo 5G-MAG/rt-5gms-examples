@@ -2,12 +2,12 @@
   "aspId": "5GMAG",
   "appId": "5G-MAG_Reference_Tools",
   "streams": {
-    "vod": {
+    "vodBBC": {
       "name": "BBC R&D Demo Streams",
       "ingestURL": "https://rdmedia.bbc.co.uk/",
       "distributionConfigurations": [
         {
-          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>"
+          "domainNameAlias": "192.168.178.56"
         }
       ],
       "consumptionReporting": {
@@ -16,32 +16,63 @@
         "locationReporting": true,
         "accessReporting": true
       },
-      "metricsReporting":[
+      "metricsReporting": [
         {
-          "reportingInterval":5,
-          "samplePercentage":100,
-          "samplingPeriod":5
+          "reportingInterval": 5,
+          "samplePercentage": 100,
+          "samplingPeriod": 5
+        }
+      ]
+    },
+    "vodAxinom": {
+      "name": "Axinom Demo Streams",
+      "ingestURL": "https://media.axprod.net/",
+      "distributionConfigurations": [
+        {
+          "domainNameAlias": "192.168.178.56"
+        }
+      ],
+      "consumptionReporting": {
+        "reportingInterval": 5,
+        "samplePercentage": 100,
+        "locationReporting": true,
+        "accessReporting": true
+      },
+      "metricsReporting": [
+        {
+          "reportingInterval": 10,
+          "samplePercentage": 100,
+          "samplingPeriod": 10
+        }
+      ]
+    },
+    "livesim5GMAG": {
+      "name": "5G-MAG LiveSim 2 Demo Streams",
+      "ingestURL": "https://rt.5g-mag.com/",
+      "distributionConfigurations": [
+        {
+          "domainNameAlias": "192.168.178.56"
+        }
+      ],
+      "consumptionReporting": {
+        "reportingInterval": 5,
+        "samplePercentage": 100,
+        "locationReporting": true,
+        "accessReporting": true
+      },
+      "metricsReporting": [
+        {
+          "reportingInterval": 10,
+          "samplePercentage": 100,
+          "samplingPeriod": 10
         }
       ]
     }
   },
   "vodMedia": [
     {
-      "name": "VoD: Elephant's Dream",
-      "stream": "vod",
-      "entryPoints": [
-        {
-          "relativePath": "elephants_dream/1/client_manifest-all.mpd",
-          "contentType": "application/dash+xml",
-          "profiles": [
-            "urn:mpeg:dash:profile:isoff-live:2011"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "VoD: Big Buck Bunny",
-      "stream": "vod",
+      "name": "VoD: BBC - Big Buck Bunny",
+      "stream": "vodBBC",
       "entryPoints": [
         {
           "relativePath": "bbb/2/client_manifest-common_init.mpd",
@@ -53,19 +84,28 @@
       ]
     },
     {
-      "name": "VoD: Testcard",
-      "stream": "vod",
+      "name": "VoD: Axinom - Tears of Steel",
+      "stream": "vodAxinom",
       "entryPoints": [
         {
-          "relativePath": "testcard/vod/manifests/avc-full.mpd",
+          "relativePath": "TestVectors/Cmaf/clear_1080p_h264/manifest.mpd",
           "contentType": "application/dash+xml",
           "profiles": [
             "urn:mpeg:dash:profile:isoff-live:2011"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "Live: 5G-MAG LiveSim2",
+      "stream": "livesim5GMAG",
+      "entryPoints": [
         {
-          "relativePath": "testcard/vod/manifests/avc-full.m3u8",
-          "contentType": "application/x-mpegURL"
+          "relativePath": "livesim2/euforia/dash.mpd",
+          "contentType": "application/dash+xml",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
         }
       ]
     }

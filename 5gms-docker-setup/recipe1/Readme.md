@@ -57,6 +57,10 @@ the [Application Function](https://5g-mag.github.io/Getting-Started/pages/5g-med
 and
 the [Application Server](https://5g-mag.github.io/Getting-Started/pages/5g-media-streaming/usage/application-server/testing-AS.html#testing).
 
+In addition, we provide a static webserver to host metadata and poster images for the 5GMS Aware Application. The
+configuration file for the webserver is located in `simple-express-server.conf`. By default, we use the port `3344` for
+the webserver. All files in the `simple-express-public` folder are hosted by the webserver and available at `http://<YOUR_IP_ADDRESS>:3344/`.
+
 ## Installation
 
 Navigate to the `5gms-docker-setup/recipe1` folder of this repository:
@@ -73,10 +77,20 @@ Start Docker Compose to build the containers and start the services:
 
 If `RUN_MSAF_CONFIGURATION_TOOL` is enabled in the `docker-compose.yaml` , the `msaf-configuration` tool is executed
 when you launch the Docker containers via `docker compose up`. The
-`msaf-configuration` tool uses the `initial-config.json` to create provisioning sessions and content hosting configurations via
+`msaf-configuration` tool uses the `initial-config.json` to create provisioning sessions and content hosting
+configurations via
 the `M1` endpoint of the `Application Function`. It
 also creates an `m8.json` that serves as the starting point for the 5GMS Aware Application. For details refer to
 the [Tutorial - 5GMSd: Basic end to end setup](https://5g-mag.github.io/Getting-Started/pages/5g-media-streaming/tutorials/end-to-end.html)
+
+### Metadata for 5GMS Aware Application
+
+Starting from version 1.3.0 the 5GMS Aware Application requires a metadata file to be able to access information about
+the provided content. The metdata file provides a descriptipn of each content and also links to a poster image that can
+be used by the 5GMS Aware Application. By default, the correspondong `metadata.json` file and the poster images are
+hosted by a simple static webserver (see `simple-express-server` in `docker-compose.yml`).
+To change the metadata, edit the `metadata.json` file in the `simple-express-public/metadata.json` folder. To change the
+poster images, add or remove the files in the `simple-express-public/posters` folder.
 
 ### Management UI
 
