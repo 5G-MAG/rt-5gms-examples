@@ -33,6 +33,7 @@ services:
         volumes:
             - ./initial-config.json:/etc/rt-5gms/initial-config.json
             - ./media.conf:/etc/rt-5gms/media.conf
+            - ./maf-client.conf:/tmp/maf-client.conf:ro
             - ./shared:/usr/share/nginx/html
         depends_on:
             - application-function
@@ -41,6 +42,7 @@ services:
             - M1_PORT=5555
             - RUN_MSAF_CONFIGURATION_TOOL=true
             - RUN_MANAGEMENT_UI=true
+            - USE_MAF_CLIENT_CONF=false
             - OPTIONS_ENDPOINT=http://application-function:5555/3gpp-m1/v2/provisioning-sessions/
 
 
