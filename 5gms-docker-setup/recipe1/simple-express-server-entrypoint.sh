@@ -2,7 +2,7 @@
 set -eu
 
 CONFIG_FILE="/etc/5gmag/ses/conf/simple-express-server.conf"
-DEFAULT_PORT="3000"
+DEFAULT_PORT="3344"
 
 PORT="$DEFAULT_PORT"
 
