@@ -1,22 +1,24 @@
-# 5G Media Streaming - Docker Compose Setup - Recipe 1
+# 5G Media Streaming - Docker Compose Setup - Recipe 1 with 5G Core
 
 This project provides a docker-compose setup to run
 the [5GMS Application Function](https://github.com/5G-MAG/rt-5gms-application-function),
 the [5GMS Application Server](https://github.com/5G-MAG/rt-5gms-application-server) and
 the [5GMS Application Provider](https://github.com/5G-MAG/rt-5gms-application-provider)
-in a local Docker container environment.
+together with a full 5G Core (5GC) in a local Docker container environment.
 
-For that reason, this folder includes Docker files for all the three aforementioned projects. In addition, it includes a
-`docker-compose.yaml` file to connect the three projects. The configuration files included in this project can be edited
-on the
-host machine and
-are mounted to the respective Docker container during runtime.
+This recipe extends Recipe 1 by including a complete 5GC deployment based on Open5GS, providing an end-to-end
+setup for 5G Media Streaming.
+
+For that reason, this folder includes Docker files for all the aforementioned projects. In addition, it includes two
+Docker Compose files: `docker-compose-5gms.yml` for the 5GMS components and `docker-compose-5gc.yml` for the 5G Core.
+The configuration files included in this project can be edited on the host machine and are mounted to the respective
+Docker container during runtime.
 
 ## Architecture
 
 The architecture of this Docker setup corresponds to 3GPP TS 26.501 A.3: Downlink media streaming with both AF and AS
-deployed in an external Data Network (OTT). The Docker compose file starts all Docker containers on a single machine
-and exposes reference points `M1`, `M4`, `M5` and `M8`.
+deployed in an external Data Network (OTT), combined with a full 5G Core deployment. The Docker Compose files start all
+Docker containers on a single machine and expose reference points `M1`, `M4`, `M5` and `M8`.
 
 ![Architecture Diagram](img/5gms-docker-recipe1.png)
 
@@ -63,38 +65,52 @@ the webserver. All files in the `simple-express-public` folder are hosted by the
 
 ## Installation
 
-Navigate to the `5gms-docker-setup/recipe1` folder of this repository:
+Navigate to the `5gms-docker-setup/recipe1_with_5GC` folder of this repository:
 
-` cd 5gms-docker-setup/recipe1`
+`cd 5gms-docker-setup/recipe1_with_5GC`
 
-Start Docker Compose to build the containers and start the services:
+### Start the 5G Core
 
-`docker compose up`
+Start the 5G Core containers first:
+
+`docker compose -f docker-compose-5gc.yml up -d`
+
+### Start the 5GMS components
+
+Once the 5G Core is running, start the 5GMS components:
+
+`docker compose -f docker-compose-5gms.yml up`
+
+### Docker Monitor (optional)
+
+A web-based monitor is available to inspect the status of all running containers. From the root of the repository:
+
+`docker compose -f docker-compose-monitor.yml up -d`
+
+Then open **http://localhost:3002** in your browser.
 
 ## Usage
 
 ### msaf-configuration
 
-If `RUN_MSAF_CONFIGURATION_TOOL` is enabled in the `docker-compose.yaml` , the `msaf-configuration` tool is executed
-when you launch the Docker containers via `docker compose up`. The
-`msaf-configuration` tool uses the `initial-config.json` to create provisioning sessions and content hosting
-configurations via
-the `M1` endpoint of the `Application Function`. It
+If `RUN_MSAF_CONFIGURATION_TOOL` is enabled in `docker-compose-5gms.yml`, the `msaf-configuration` tool is executed
+when you launch the Docker containers. The `msaf-configuration` tool uses the `initial-config.json` to create
+provisioning sessions and content hosting configurations via the `M1` endpoint of the `Application Function`. It
 also creates an `m8.json` that serves as the starting point for the 5GMS Aware Application. For details refer to
 the [Tutorial - 5GMSd: Basic end to end setup](https://5g-mag.github.io/Getting-Started/pages/5g-media-streaming/tutorials/end-to-end.html)
 
 ### Metadata for 5GMS Aware Application
 
 Starting from version 1.3.0 the 5GMS Aware Application requires a metadata file to be able to access information about
-the provided content. The metdata file provides a descriptipn of each content and also links to a poster image that can
-be used by the 5GMS Aware Application. By default, the correspondong `metadata.json` file and the poster images are
-hosted by a simple static webserver (see `simple-express-server` in `docker-compose.yml`).
+the provided content. The metadata file provides a description of each content and also links to a poster image that can
+be used by the 5GMS Aware Application. By default, the corresponding `metadata.json` file and the poster images are
+hosted by a simple static webserver (see `simple-express-server` in `docker-compose-5gms.yml`).
 To change the metadata, edit the `metadata.json` file in the `simple-express-public/metadata.json` folder. To change the
 poster images, add or remove the files in the `simple-express-public/posters` folder.
 
 ### Management UI
 
-If `RUN_MANAGEMENT_UI` in the `docker-compose.yaml` is set to `true`, the 5GMS Application Provider Management UI is
+If `RUN_MANAGEMENT_UI` in `docker-compose-5gms.yml` is set to `true`, the 5GMS Application Provider Management UI is
 started and available at `http://127.0.0.1:8000/`.
 
 ### External REST client
@@ -111,7 +127,6 @@ curl -X POST http://localhost:5555/3gpp-m1/v2/provisioning-sessions \
            "appId": "appId",
            "provisioningSessionType": "DOWNLINK"
          }'
-        
 ````
 
 By default the following ports are exposed to the host machine:
@@ -120,15 +135,24 @@ By default the following ports are exposed to the host machine:
 * Application Function `M5` interface: Port `7778`
 * Application Server `M4` interface: Port `80`
 
+## Tearing down
+
+To stop the 5GMS components:
+
+`docker compose -f docker-compose-5gms.yml down`
+
+To stop the 5G Core:
+
+`docker compose -f docker-compose-5gc.yml down`
+
 ## FAQ
 
 ### `m8.json` is not created
 
-Error message: ` FileNotFoundError: [Errno 2] No such file or directory: '/shared/<<SOME_IP>>/m8.json'`
+Error message: `FileNotFoundError: [Errno 2] No such file or directory: '/shared/<<SOME_IP>>/m8.json'`
 
 If you run into an issue where the `m8.json` is not created, make sure that the right folders are created inside the
-`shared`
-folder. There should be a `localhost` folder, and inside that folder, there should be a `m8.json` file. In addition, a
-similar folder with the IP of your host machine should be created. It also contains an `m8.json` file.
+`shared` folder. There should be a `localhost` folder, and inside that folder, there should be a `m8.json` file. In
+addition, a similar folder with the IP of your host machine should be created. It also contains an `m8.json` file.
 
-If one or both of these folders are missing, create them manually and run `docker compose up` again.
+If one or both of these folders are missing, create them manually and run `docker compose -f docker-compose-5gms.yml up` again.
