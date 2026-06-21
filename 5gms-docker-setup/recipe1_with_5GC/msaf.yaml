@@ -186,7 +186,7 @@ msaf:
           urlPathPrefixFormat: /m4d/provisioning-session-{provisioningSessionId}/
           m3Port: 7777
           m3Host: application-server
-    certificateManager: "@default-certmgr@"
+    certificateManager: "@no-certmgr@"
     serverResponseCacheControl:
         - maxAge: 60
           m1ProvisioningSessions: 60
@@ -197,11 +197,11 @@ msaf:
           m1ConsumptionReportingConfiguration: 60
           m5ServiceAccessInformation: 60
     dataCollectionDir: "/af-reports"
-    offerNetworkAssistance: false
-#    networkAssistance:
-#      deliveryBoost:
-#        minDlBitRate: 1 Mbps
-#        boostPeriod: 30
+    offerNetworkAssistance: true
+    networkAssistance:
+      deliveryBoost:
+        minDlBitRate: 1 Mbps
+        boostPeriod: 30
 
 
 # nrf:
@@ -226,7 +226,7 @@ msaf:
 #
 #    sbi:
 #      addr:
-#        - nrf_5gmag.5g-mag.org
+#        - nrf.5g-mag.org
 #        - fd69:f21d:873c:fa::1
 #
 #  o SBI Option (Default)
@@ -244,14 +244,14 @@ msaf:
 nrf:
     sbi:
         - addr:
-              - nrf_5gmag.5g-mag.org
+              - nrf.5g-mag.org
               
           port: 80
 
 bsf:
     notificationListener:
         - addr:
-              - 127.0.0.99
+              - 0.0.0.0
           port: 7779
 
 #
