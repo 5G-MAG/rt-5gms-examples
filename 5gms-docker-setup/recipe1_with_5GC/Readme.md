@@ -71,7 +71,11 @@ Navigate to the `5gms-docker-setup/recipe1_with_5GC` folder of this repository:
 
 ### Start the 5G Core
 
-Start the 5G Core containers first:
+Create the shared Docker network (only needed once):
+
+`docker network create 5g-mag`
+
+Start the 5G Core containers:
 
 `docker compose -f docker-compose-5gc.yml up -d`
 
