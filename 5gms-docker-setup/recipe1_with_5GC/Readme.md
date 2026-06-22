@@ -65,9 +65,16 @@ the webserver. All files in the `simple-express-public` folder are hosted by the
 
 ## Installation
 
-Navigate to the `5gms-docker-setup/recipe1_with_5GC` folder of this repository:
+If you have not already done so, clone the repository:
 
-`cd 5gms-docker-setup/recipe1_with_5GC`
+```bash
+cd ~
+git clone https://github.com/5G-MAG/rt-5gms-examples.git
+```
+
+Navigate to the `recipe1_with_5GC` folder:
+
+`cd ~/rt-5gms-examples/5gms-docker-setup/recipe1_with_5GC`
 
 ### Start the 5G Core
 

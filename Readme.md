@@ -12,6 +12,17 @@ new features for 5GMS.
 
 Additional information can be found at: https://5g-mag.github.io/Getting-Started/pages/5g-media-streaming/
 
+## Cloning
+
+Clone the repository to your home directory:
+
+```bash
+cd ~
+git clone https://github.com/5G-MAG/rt-5gms-examples.git
+```
+
+All path instructions in the documentation below assume the repository is located at `~/rt-5gms-examples`.
+
 ## 5G Media Streaming - Docker Compose Setup
 
 This project provides a docker-compose setup to run the 5GMS Application Function and the 5GMS Application Server
@@ -21,6 +32,10 @@ connect the two components. The configuration files included in this project can
 are mounted to the respective Docker container during runtime.
 
 Information can be found [here](./5gms-docker-setup/).
+
+### Recipe 1 with 5G Core
+
+A full end-to-end setup including Open5GS 5G Core, 5GMS Application Function, Application Server and Application Provider. See the [Recipe 1 with 5GC README](./5gms-docker-setup/recipe1_with_5GC/Readme.md).
 
 ## Express Mock AF
 
