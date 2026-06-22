@@ -80,7 +80,7 @@ sbi:
 #      - addr:
 #          - 0.0.0.0
 #          - ::0
-#        port: 80
+#        port: 7777
 #
 #  o SBI Server(https://<all address available>:443)
 #    sbi:
@@ -103,7 +103,7 @@ sbi:
 #  o SBI Server(http://127.0.0.12:7777)
 #    sbi:
 #      - addr: 127.0.0.12
-#        port: 80
+#        port: 7777
 #
 #  o SBI Server(http://<eth0 IP address>:80)
 #    sbi:
@@ -118,7 +118,7 @@ sbi:
 #      - addr: localhost
 #        advertise:
 #          - 127.0.0.99
-#          
+#          - ::1
 #
 #  o SBI Option (Default)
 #    - tcp_nodelay : true
@@ -149,7 +149,7 @@ sbi:
 #
 #    sbi:
 #      - addr: 127.0.0.12
-#        port: 80
+#        port: 7777
 #
 #    - 'service-names' is included.
 #
@@ -168,10 +168,10 @@ sbi:
 #    * That is, 'no_service_names' has no effect.
 #
 msaf:
-    open5gsIntegration: true
+    open5gsIntegration: false
     sbi:
-        - addr: 0.0.0.0
-          port: 80
+        - addr: 127.0.0.22
+          port: 7777
     m1:
         - addr: 0.0.0.0
           port: 5555
@@ -211,7 +211,7 @@ msaf:
 #  o SBI Client(http://127.0.0.10:7777)
 #    sbi:
 #      addr: 127.0.0.10
-#      port: 80
+#      port: 7777
 #
 #  o SBI Client(https://127.0.0.10:443, http://nrf.open5gs.org:80)
 #    sbi:
@@ -226,7 +226,7 @@ msaf:
 #
 #    sbi:
 #      addr:
-#        - nrf_5gmag.5g-mag.org
+#        - 127.0.0.10
 #        - fd69:f21d:873c:fa::1
 #
 #  o SBI Option (Default)
@@ -244,10 +244,10 @@ msaf:
 nrf:
     sbi:
         - addr:
-              - nrf_5gmag.5g-mag.org
-              
-          port: 80
-
+              - 127.0.0.10
+              - ::1              
+          port: 7777
+          
 bsf:
     notificationListener:
         - addr:
