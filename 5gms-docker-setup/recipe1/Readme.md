@@ -87,9 +87,13 @@ Start Docker Compose to build the containers and start the services:
 
 ### With 5G Core
 
-Create the shared Docker network (only needed once):
+Create the shared Docker network and persistent volumes for the subscriber database (only needed once):
 
 `docker network create 5g-mag`
+
+`docker volume create open5gs_db_data`
+
+`docker volume create open5gs_db_config`
 
 Start the 5G Core containers:
 
