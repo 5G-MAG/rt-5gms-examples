@@ -44,7 +44,7 @@ RUN apt-get update && \
     wget
 
 # Clone the repository
-RUN git clone --recurse-submodules --branch bugfix/Network-Assistance https://github.com/ErikGaida/rt-5gms-application-function.git
+RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application-function.git
 
 # Set working directory
 WORKDIR /rt-5gms-application-function
