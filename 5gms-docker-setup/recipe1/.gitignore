@@ -1,1 +1,4 @@
-shared/m8/m8.json
+shared/
+af-reports/*/
+simple-express-public/watchfolder/
+simple-express-public/OLD/

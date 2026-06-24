@@ -1,0 +1,94 @@
+services:
+  application-server:
+    environment:
+      - CMCD_COLLECTOR_URL=http://cmcd-collector:3000/cmcd/response-mode
+    networks:
+      - default
+      - 5g-mag
+
+  application-provider:
+    environment:
+      - CMCD_INFLUXDB_URL=http://cmcd-influxdb:8086
+      - CMCD_INFLUXDB_DB=analytics
+    networks:
+      - default
+      - 5g-mag
+
+  cmcd-collector:
+    build: ${CMCD_TOOLKIT_PATH:-../../../../cmcd-toolkit}/collector
+    ports:
+      - "3000:3000"
+    environment:
+      - LOCAL_ENABLED=true
+      - LOCAL_FLUENTD_HOST=cmcd-fluentd
+      - LOCAL_FLUENTD_PORT=24224
+      - LOCAL_FLUENTD_TAG=node.collector
+    depends_on:
+      - cmcd-fluentd
+    networks:
+      - 5g-mag
+
+  cmcd-player:
+    build: ${CMCD_TOOLKIT_PATH:-../../../../cmcd-toolkit}/player
+    ports:
+      - "8080:3000"
+    networks:
+      - 5g-mag
+
+  cmcd-influxdb:
+    image: influxdb:1.8
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=analytics
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin_password
+    volumes:
+      - cmcd_influxdb_data:/var/lib/influxdb
+    networks:
+      5g-mag:
+        aliases:
+          - influxdb
+
+  cmcd-fluentd:
+    build: ${CMCD_TOOLKIT_PATH:-../../../../cmcd-toolkit}/fluentd
+    restart: unless-stopped
+    volumes:
+      - ${CMCD_TOOLKIT_PATH:-../../../../cmcd-toolkit}/fluentd:/fluentd/etc
+      - cmcd_fluentd_buffer:/fluentd/log/buffer
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    environment:
+      - INFLUXDB_HOST=cmcd-influxdb
+      - INFLUXDB_PORT=8086
+      - INFLUXDB_DB=analytics
+      - INFLUXDB_USER=admin
+      - INFLUXDB_PASSWORD=admin_password
+      - INFLUXDB_MEASUREMENT=cmcd_metrics
+    depends_on:
+      - cmcd-influxdb
+    networks:
+      - 5g-mag
+
+  cmcd-grafana:
+    image: grafana/grafana
+    ports:
+      - "8081:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    volumes:
+      - ${CMCD_TOOLKIT_PATH:-../../../../cmcd-toolkit}/grafana/local-stack:/etc/grafana/provisioning/datasources
+      - ${CMCD_TOOLKIT_PATH:-../../../../cmcd-toolkit}/grafana/local-stack/dashboards:/etc/grafana/provisioning/dashboards
+    networks:
+      - 5g-mag
+
+volumes:
+  cmcd_influxdb_data:
+  cmcd_fluentd_buffer:
+
+networks:
+  5g-mag:
+    external: true

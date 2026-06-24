@@ -1,0 +1,91 @@
+{
+  "aspId": "5GMAG",
+  "appId": "5G-MAG_Reference_Tools",
+  "streams": {
+    "vod": {
+      "name": "5G-MAG Demo Streams",
+      "ingestURL": "http://<YOUR_MACHINE_IP_HERE>:3344/",
+      "distributionConfigurations": [
+        {
+          "domainNameAlias": "<YOUR_MACHINE_IP_HERE>"
+        }
+      ],
+      "consumptionReporting": {
+        "reportingInterval": 5,
+        "samplePercentage": 100,
+        "locationReporting": true,
+        "accessReporting": true
+      },
+      "metricsReporting":[
+        {
+          "scheme": "urn:3GPP:ns:PSS:DASH:QM10",
+          "dataNetworkName": "",
+          "reportingInterval":60,
+          "samplePercentage":100,
+          "urlFilters": [],
+          "samplingPeriod":1,
+          "metrics": [
+            "urn:3GPP:ns:PSS:DASH:QM10#HTTPList",
+            "urn:3GPP:ns:PSS:DASH:QM10#BufferLevel",
+            "urn:3GPP:ns:PSS:DASH:QM10#RepSwitchList",
+            "urn:3GPP:ns:PSS:DASH:QM10#MPDInformation"
+          ]
+        }
+      ]   
+    }
+  },
+  "vodMedia": [
+    {
+      "name": "5G-MAG.tv 1",
+      "stream": "vod",
+      "entryPoints": [
+        {
+          "relativePath": "watchfolder/tv_1/manifest.mpd",
+          "contentType": "application/dash+xml",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5G-MAG.tv 2",
+      "stream": "vod",
+      "entryPoints": [
+        {
+          "relativePath": "watchfolder/tv_2/manifest.mpd",
+          "contentType": "application/dash+xml",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5G-MAG.tv 3",
+      "stream": "vod",
+      "entryPoints": [
+        {
+          "relativePath": "watchfolder/tv_3/manifest.mpd",
+          "contentType": "application/dash+xml",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5G-MAG.r news",
+      "stream": "vod",
+      "entryPoints": [
+        {
+          "relativePath": "watchfolder/radio/manifest.mpd",
+          "contentType": "application/dash+xml",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
+        }
+      ]
+    }
+  ]
+}
