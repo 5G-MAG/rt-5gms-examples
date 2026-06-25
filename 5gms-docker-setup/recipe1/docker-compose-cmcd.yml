@@ -15,7 +15,7 @@ services:
       - 5g-mag
 
   cmcd-collector:
-    build: ${CMCD_TOOLKIT_PATH:-../../../../cmcd-toolkit}/collector
+    build: ${CMCD_TOOLKIT_PATH}/collector
     ports:
       - "3000:3000"
     environment:
@@ -29,7 +29,7 @@ services:
       - 5g-mag
 
   cmcd-player:
-    build: ${CMCD_TOOLKIT_PATH:-../../../../cmcd-toolkit}/player
+    build: ${CMCD_TOOLKIT_PATH}/player
     ports:
       - "8080:3000"
     networks:
@@ -52,10 +52,10 @@ services:
           - influxdb
 
   cmcd-fluentd:
-    build: ${CMCD_TOOLKIT_PATH:-../../../../cmcd-toolkit}/fluentd
+    build: ${CMCD_TOOLKIT_PATH}/fluentd
     restart: unless-stopped
     volumes:
-      - ${CMCD_TOOLKIT_PATH:-../../../../cmcd-toolkit}/fluentd:/fluentd/etc
+      - ${CMCD_TOOLKIT_PATH}/fluentd:/fluentd/etc
       - cmcd_fluentd_buffer:/fluentd/log/buffer
     ports:
       - "24224:24224"
@@ -80,8 +80,8 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=grafana
     volumes:
-      - ${CMCD_TOOLKIT_PATH:-../../../../cmcd-toolkit}/grafana/local-stack:/etc/grafana/provisioning/datasources
-      - ${CMCD_TOOLKIT_PATH:-../../../../cmcd-toolkit}/grafana/local-stack/dashboards:/etc/grafana/provisioning/dashboards
+      - ${CMCD_TOOLKIT_PATH}/grafana/local-stack:/etc/grafana/provisioning/datasources
+      - ${CMCD_TOOLKIT_PATH}/grafana/local-stack/dashboards:/etc/grafana/provisioning/dashboards
     networks:
       - 5g-mag
 
