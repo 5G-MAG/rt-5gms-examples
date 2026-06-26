@@ -66,6 +66,30 @@ configuration file for the webserver is located in `simple-express-server.conf`.
 the webserver. All files in the `simple-express-public` folder are hosted by the webserver and available at
 `http://<YOUR_IP_ADDRESS>:3344/`.
 
+## CMCD Analytics (optional)
+
+An optional `docker-compose-cmcd.yml` overlay adds CMCD analytics support: a collector, a Fluentd log shipper, InfluxDB, a Grafana dashboard, and a CMCD-instrumented player.
+
+To use it, you first need a local clone of the [CMCD Toolkit](https://github.com/5G-MAG/cmcd-toolkit):
+
+```bash
+git clone https://github.com/5G-MAG/cmcd-toolkit.git
+```
+
+Then set `CMCD_TOOLKIT_PATH` in the `.env` file to the absolute path of the cloned directory:
+
+```
+CMCD_TOOLKIT_PATH=/absolute/path/to/cmcd-toolkit
+```
+
+Start the stack with both compose files:
+
+```bash
+docker compose -f docker-compose_5gms_without_5GC.yml -f docker-compose-cmcd.yml up -d
+```
+
+The CMCD collector is available at port `3000`, the player at port `8080`, and the Grafana dashboard at port `8081` (login: `admin` / `grafana`).
+
 ## Installation
 
 If you have not already done so, clone the repository:
@@ -105,9 +129,23 @@ Once the 5G Core is running, start the 5GMS components:
 
 ### Docker Monitor (optional)
 
-A web-based monitor is available to inspect the status of all running containers. From the root of the repository:
+A web-based monitor is available to inspect the status of all running containers. It is provided by the [rt-common-shared](https://github.com/5G-MAG/rt-common-shared) repository. Clone it first if you have not already done so:
 
-`docker compose -f docker-compose-monitor.yml up -d`
+```bash
+git clone https://github.com/5G-MAG/rt-common-shared.git
+```
+
+Then set `COMMON_SHARED_PATH` in the `.env` file to the absolute path of the cloned directory:
+
+```
+COMMON_SHARED_PATH=/absolute/path/to/rt-common-shared
+```
+
+Start the monitor from the `recipe1` folder:
+
+```bash
+docker compose -f /absolute/path/to/rt-common-shared/docker-monitor/docker-compose-monitor.yml up -d
+```
 
 Then open **http://localhost:3002** in your browser.
 
