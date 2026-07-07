@@ -67,6 +67,31 @@
           "samplingPeriod": 10
         }
       ]
+    },
+    "CMMFvod": {
+      "name": "5G-MAG CMMF Vod demo",
+      "ingestURL": "http://<YOUR_INGEST_URL_HERE>",
+      "distributionConfigurations": [
+        {
+          "domainNameAlias": "<YOUR_MACHINE_IP_HERE>:8001"
+        },
+        {
+          "domainNameAlias": "<YOUR_MACHINE_IP_HERE>:8002"
+        }
+      ],
+      "consumptionReporting": {
+        "reportingInterval": 5,
+        "samplePercentage": 100,
+        "locationReporting": true,
+        "accessReporting": true
+      },
+      "metricsReporting": [
+        {
+          "reportingInterval": 10,
+          "samplePercentage": 100,
+          "samplingPeriod": 10
+        }
+      ]
     }
   },
   "vodMedia": [
@@ -103,6 +128,19 @@
         {
           "relativePath": "livesim2/euforia/dash.mpd",
           "contentType": "application/dash+xml",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "VOD: CMMF",
+      "stream": "CMMFvod",
+      "entryPoints": [
+        {
+          "relativePath": "cmmf/config/vodConfig.json",
+          "contentType": "application/vnd.cmmf-configuration-information+json",
           "profiles": [
             "urn:mpeg:dash:profile:isoff-live:2011"
           ]
