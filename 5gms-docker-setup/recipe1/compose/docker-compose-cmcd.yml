@@ -1,10 +1,10 @@
 name: recipe1
 
 services:
-  # Does not start a second Application Server. It overlays the existing application-server service and adds environment variables to enable CMCD support.
+  # Does not start a second Application Server. It overlays the existing application-server service.
+  # NOTE: CMCD forwarding is enabled via the `cmcd_collector_url` setting in
+  # configs/application-server.conf, NOT via an env var (the AS does not read env for this).
   application-server:
-    environment:
-      - CMCD_COLLECTOR_URL=http://cmcd-collector:3000/cmcd/response-mode
     networks:
       - default
 
