@@ -13,7 +13,7 @@ RUN rm -rf /var/lib/apt/lists/* && apt-get clean && \
     && apt-get clean
 
 # Clone the repository
-RUN git clone --recurse-submodules -b fix/management-ui https://github.com/5G-MAG/rt-5gms-application-provider.git /rt-5gms-application-provider
+RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application-provider.git /rt-5gms-application-provider
 
 # Set working directory
 WORKDIR /rt-5gms-application-provider
