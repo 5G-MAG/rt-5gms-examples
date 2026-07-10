@@ -1,3 +1,5 @@
+name: recipe1
+
 services:
 
   db:
@@ -214,22 +216,22 @@ volumes:
 
 configs:
   nrf_config:
-    file: ./configs/nrf.yaml
+    file: ../configs/nrf.yaml
   ausf_config:
-    file: ./configs/ausf.yaml
+    file: ../configs/ausf.yaml
   udm_config:
-    file: ./configs/udm.yaml
+    file: ../configs/udm.yaml
   udr_config:
-    file: ./configs/udr.yaml
+    file: ../configs/udr.yaml
   nssf_config:
-    file: ./configs/nssf.yaml
+    file: ../configs/nssf.yaml
   bsf_config:
-    file: ./configs/bsf.yaml
+    file: ../configs/bsf.yaml
   pcf_config:
-    file: ./configs/pcf.yaml
+    file: ../configs/pcf.yaml
   amf_config:
-    file: ./configs/amf.yaml
+    file: ../configs/amf.yaml
   smf_config:
-    file: ./configs/smf.yaml
+    file: ../configs/smf.yaml
   upf_config:
-    file: ./configs/upf.yaml
+    file: ../configs/upf.yaml

@@ -7,8 +7,8 @@ the [5GMS Application Provider](https://github.com/5G-MAG/rt-5gms-application-pr
 in a local Docker container environment, either standalone or together with a full 5G Core (5GC).
 
 This folder includes Docker files for all the aforementioned projects. It includes two Docker Compose files for the
-5GMS components: `docker-compose-5gms.yml` (with 5GC) and `docker-compose_5gms_without_5GC.yml` (standalone). An
-additional `docker-compose-5gc.yml` file is provided to deploy the 5G Core based on Open5GS. The configuration files
+5GMS components: `compose/docker-compose-5gms.yml` (with 5GC) and `compose/docker-compose_5gms_without_5GC.yml` (standalone). An
+additional `compose/docker-compose-5gc.yml` file is provided to deploy the 5G Core based on Open5GS. The configuration files
 included in this project can be edited on the host machine and are mounted to the respective Docker container during
 runtime.
 
@@ -24,15 +24,15 @@ and expose reference points `M1`, `M4`, `M5` and `M8`.
 
 ### Configuration files
 
-You need to provide two configuration changes to the `media.conf` and the `initial-config.json` file.
+You need to provide two configuration changes to the `configs/media.conf` and the `configs/initial-config.json` file.
 
-In `media.conf` add the IP of your host machine by replacing `<<ADD_YOUR_IP_HERE>>` e.g.:
+In `configs/media.conf` add the IP of your host machine by replacing `<<ADD_YOUR_IP_HERE>>` e.g.:
 
 ````
 m5_authority = 10.147.67.219:7778
 ````
 
-In `initial-config.json` add the IP of your host machine by replacing `<<ADD_YOUR_IP_HERE>>` e.g.:
+In `configs/initial-config.json` add the IP of your host machine by replacing `<<ADD_YOUR_IP_HERE>>` e.g.:
 
 ````
 "domainNameAlias": "10.147.67.219"
@@ -44,10 +44,10 @@ These changes enable a 5G Media Streaming client to access the content via the `
 ## Optional Configuration
 
 The configuration files for the 5GMS Application Function and the 5GMS Application Server are located in
-`application-server.conf` and one of two MSAF config files:
+`configs/application-server.conf` and one of two MSAF config files:
 
-- `msaf.yaml` — for standalone use (without 5GC)
-- `msaf_with_5GC.yaml` — for use with the 5G Core (`open5gsIntegration: true`)
+- `configs/msaf.yaml` — for standalone use (without 5GC)
+- `configs/msaf_with_5GC.yaml` — for use with the 5G Core (`open5gsIntegration: true`)
 
 The configuration files are mounted to the respective Docker container during runtime.
 
@@ -62,30 +62,24 @@ and
 the [Application Server](https://5g-mag.github.io/Getting-Started/pages/5g-media-streaming/usage/application-server/testing-AS.html#testing).
 
 In addition, we provide a static webserver to host metadata and poster images for the 5GMS Aware Application. The
-configuration file for the webserver is located in `simple-express-server.conf`. By default, we use port `3344` for
+configuration file for the webserver is located in `configs/simple-express-server.conf`. By default, we use port `3344` for
 the webserver. All files in the `simple-express-public` folder are hosted by the webserver and available at
 `http://<YOUR_IP_ADDRESS>:3344/`.
 
 ## CMCD Analytics (optional)
 
-An optional `docker-compose-cmcd.yml` overlay adds CMCD analytics support: a collector, a Fluentd log shipper, InfluxDB, a Grafana dashboard, and a CMCD-instrumented player.
+An optional `compose/docker-compose-cmcd.yml` overlay adds CMCD analytics support: a collector, a Fluentd log shipper, InfluxDB, a Grafana dashboard, and a CMCD-instrumented player. The required CMCD Toolkit sources are cloned during the Docker image build at a pinned commit; no local clone or environment variable is needed. To build from a different CMCD Toolkit branch, tag, or commit, set `CMCD_TOOLKIT_REF` before running Docker Compose.
 
-To use it, you first need a local clone of the [CMCD Toolkit](https://github.com/5G-MAG/cmcd-toolkit):
-
-```bash
-git clone https://github.com/5G-MAG/cmcd-toolkit.git
-```
-
-Then set `CMCD_TOOLKIT_PATH` in the `.env` file to the absolute path of the cloned directory:
-
-```
-CMCD_TOOLKIT_PATH=/absolute/path/to/cmcd-toolkit
-```
-
-Start the stack with both compose files:
+Start the standalone stack with CMCD support:
 
 ```bash
-docker compose -f docker-compose_5gms_without_5GC.yml -f docker-compose-cmcd.yml up -d
+docker compose --env-file .env -f compose/docker-compose_5gms_without_5GC.yml -f compose/docker-compose-cmcd.yml up -d
+```
+
+Start the 5GC stack with CMCD support after the 5G Core is running:
+
+```bash
+docker compose --env-file .env -f compose/docker-compose-5gms.yml -f compose/docker-compose-cmcd.yml up -d
 ```
 
 The CMCD collector is available at port `3000`, the player at port `8080`, and the Grafana dashboard at port `8081` (login: `admin` / `grafana`).
@@ -107,7 +101,7 @@ Navigate to the `recipe1` folder:
 
 Start Docker Compose to build the containers and start the services:
 
-`docker compose -f docker-compose_5gms_without_5GC.yml up`
+`docker compose --env-file .env -f compose/docker-compose_5gms_without_5GC.yml up`
 
 ### With 5G Core
 
@@ -121,11 +115,11 @@ Create the shared Docker network and persistent volumes for the subscriber datab
 
 Start the 5G Core containers:
 
-`docker compose -f docker-compose-5gc.yml up -d`
+`docker compose --env-file .env -f compose/docker-compose-5gc.yml up -d`
 
 Once the 5G Core is running, start the 5GMS components:
 
-`docker compose -f docker-compose-5gms.yml up`
+`docker compose --env-file .env -f compose/docker-compose-5gms.yml up`
 
 ### Docker Monitor (optional)
 
@@ -154,7 +148,7 @@ Then open **http://localhost:3002** in your browser.
 ### msaf-configuration
 
 If `RUN_MSAF_CONFIGURATION_TOOL` is enabled in the Docker Compose file, the `msaf-configuration` tool is executed
-when you launch the Docker containers. The `msaf-configuration` tool uses the `initial-config.json` to create
+when you launch the Docker containers. The `msaf-configuration` tool uses the `configs/initial-config.json` to create
 provisioning sessions and content hosting configurations via the `M1` endpoint of the `Application Function`. It
 also creates an `m8.json` that serves as the starting point for the 5GMS Aware Application. For details refer to
 the [Tutorial - 5GMSd: Basic end to end setup](https://5g-mag.github.io/Getting-Started/pages/5g-media-streaming/tutorials/end-to-end.html).
@@ -199,17 +193,17 @@ By default the following ports are exposed to the host machine:
 
 ### Without 5G Core
 
-`docker compose -f docker-compose_5gms_without_5GC.yml down`
+`docker compose --env-file .env -f compose/docker-compose_5gms_without_5GC.yml down`
 
 ### With 5G Core
 
 To stop the 5GMS components:
 
-`docker compose -f docker-compose-5gms.yml down`
+`docker compose --env-file .env -f compose/docker-compose-5gms.yml down`
 
 To stop the 5G Core:
 
-`docker compose -f docker-compose-5gc.yml down`
+`docker compose --env-file .env -f compose/docker-compose-5gc.yml down`
 
 ## FAQ
 

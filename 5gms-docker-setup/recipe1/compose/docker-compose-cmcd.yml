@@ -1,10 +1,12 @@
+name: recipe1
+
 services:
+  # Does not start a second Application Server. It overlays the existing application-server service and adds environment variables to enable CMCD support.
   application-server:
     environment:
       - CMCD_COLLECTOR_URL=http://cmcd-collector:3000/cmcd/response-mode
     networks:
       - default
-      - 5g-mag
 
   application-provider:
     environment:
@@ -12,10 +14,13 @@ services:
       - CMCD_INFLUXDB_DB=analytics
     networks:
       - default
-      - 5g-mag
 
   cmcd-collector:
-    build: ${CMCD_TOOLKIT_PATH}/collector
+    build:
+      context: ../
+      dockerfile: docker/cmcd/collector/Dockerfile
+      args:
+        CMCD_TOOLKIT_REF: ${CMCD_TOOLKIT_REF:-a3b8ab7ebd8b492bb8a944b71b011e5d49224318}
     ports:
       - "3000:3000"
     environment:
@@ -26,14 +31,18 @@ services:
     depends_on:
       - cmcd-fluentd
     networks:
-      - 5g-mag
+      - default
 
   cmcd-player:
-    build: ${CMCD_TOOLKIT_PATH}/player
+    build:
+      context: ../
+      dockerfile: docker/cmcd/player/Dockerfile
+      args:
+        CMCD_TOOLKIT_REF: ${CMCD_TOOLKIT_REF:-a3b8ab7ebd8b492bb8a944b71b011e5d49224318}
     ports:
       - "8080:3000"
     networks:
-      - 5g-mag
+      - default
 
   cmcd-influxdb:
     image: influxdb:1.8
@@ -47,15 +56,18 @@ services:
     volumes:
       - cmcd_influxdb_data:/var/lib/influxdb
     networks:
-      5g-mag:
+      default:
         aliases:
           - influxdb
 
   cmcd-fluentd:
-    build: ${CMCD_TOOLKIT_PATH}/fluentd
+    build:
+      context: ../
+      dockerfile: docker/cmcd/fluentd/Dockerfile
+      args:
+        CMCD_TOOLKIT_REF: ${CMCD_TOOLKIT_REF:-a3b8ab7ebd8b492bb8a944b71b011e5d49224318}
     restart: unless-stopped
     volumes:
-      - ${CMCD_TOOLKIT_PATH}/fluentd:/fluentd/etc
       - cmcd_fluentd_buffer:/fluentd/log/buffer
     ports:
       - "24224:24224"
@@ -70,25 +82,22 @@ services:
     depends_on:
       - cmcd-influxdb
     networks:
-      - 5g-mag
+      - default
 
   cmcd-grafana:
-    image: grafana/grafana
+    build:
+      context: ../
+      dockerfile: docker/cmcd/grafana/Dockerfile
+      args:
+        CMCD_TOOLKIT_REF: ${CMCD_TOOLKIT_REF:-a3b8ab7ebd8b492bb8a944b71b011e5d49224318}
     ports:
       - "8081:3000"
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=grafana
-    volumes:
-      - ${CMCD_TOOLKIT_PATH}/grafana/local-stack:/etc/grafana/provisioning/datasources
-      - ${CMCD_TOOLKIT_PATH}/grafana/local-stack/dashboards:/etc/grafana/provisioning/dashboards
     networks:
-      - 5g-mag
+      - default
 
 volumes:
   cmcd_influxdb_data:
   cmcd_fluentd_buffer:
-
-networks:
-  5g-mag:
-    external: true

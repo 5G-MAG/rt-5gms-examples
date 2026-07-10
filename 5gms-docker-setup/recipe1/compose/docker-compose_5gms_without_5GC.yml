@@ -1,40 +1,44 @@
+name: recipe1
+
 services:
     application-server:
         build:
-            context: ./
-            dockerfile: Dockerfile-Application-Server
+            context: ../
+            dockerfile: docker/application-server/Dockerfile
         ports:
             - "80:80"
         volumes:
-            - ./application-server.conf:/etc/5gmag/as/conf/application-server.conf
-            - ./shared:/shared
+            - ../configs/application-server.conf:/etc/5gmag/as/conf/application-server.conf
+            - ../shared:/shared
+        networks:
+            - default
 
     application-function:
         build:
-            context: ./
-            dockerfile: Dockerfile-Application-Function
+            context: ../
+            dockerfile: docker/application-function/Dockerfile
         ports:
             - "5555:5555" # M1 Port
             - "7778:7778" # M5 Port
             - "4444:4444"
             - "6464:6464" # MAF port
         volumes:
-            - ./msaf.yaml:/etc/open5gs/alternate-msaf.yaml
-            - ./af-reports:/af-reports
+            - ../configs/msaf.yaml:/etc/open5gs/alternate-msaf.yaml
+            - ../af-reports:/af-reports
         depends_on:
             - application-server
 
     application-provider:
         build:
-            context: ./
-            dockerfile: Dockerfile-Application-Provider
+            context: ../
+            dockerfile: docker/application-provider/Dockerfile
         ports:
             - "8000:8000"
         volumes:
-            - ./initial-config.json:/etc/rt-5gms/initial-config.json
-            - ./media.conf:/etc/rt-5gms/media.conf
-            - ./maf-client.conf:/tmp/maf-client.conf:ro
-            - ./shared:/usr/share/nginx/html
+            - ../configs/initial-config.json:/etc/rt-5gms/initial-config.json
+            - ../configs/media.conf:/etc/rt-5gms/media.conf
+            - ../configs/maf-client.conf:/tmp/maf-client.conf:ro
+            - ../shared:/usr/share/nginx/html
         depends_on:
             - application-function
             - application-server
@@ -44,19 +48,20 @@ services:
             - RUN_MANAGEMENT_UI=true
             - USE_MAF_CLIENT_CONF=true
             - OPTIONS_ENDPOINT=http://application-function:5555/3gpp-m1/v2/provisioning-sessions/
+        networks:
+            - default
     simple-express-server:
         build:
-            context: ./
-            dockerfile: Dockerfile-Simple-Express-Server
+            context: ../
+            dockerfile: docker/simple-express-server/Dockerfile
         ports:
             - "3344:3344"
         volumes:
-            - ./simple-express-server.conf:/etc/5gmag/ses/conf/simple-express-server.conf:ro
-            - ./simple-express-public:/opt/simple-express-server/public
+            - ../configs/simple-express-server.conf:/etc/5gmag/ses/conf/simple-express-server.conf:ro
+            - ../simple-express-public:/opt/simple-express-server/public
         depends_on:
             - application-function
             - application-server
             - application-provider
-
 
 # See: https://docs.docker.com/compose/how-tos/networking/

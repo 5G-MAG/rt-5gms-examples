@@ -30,7 +30,7 @@ ENV PATH="/usr/local/openresty/nginx/sbin:$PATH"
 RUN systemctl disable --now nginx.service openresty.service || true
 
 # Clone the repository
-RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application-server.git /5gms-application-server
+RUN git clone --recurse-submodules --branch feature/cmcd https://github.com/5G-MAG/rt-5gms-application-server.git /5gms-application-server
 
 # Set the working directory
 WORKDIR /5gms-application-server

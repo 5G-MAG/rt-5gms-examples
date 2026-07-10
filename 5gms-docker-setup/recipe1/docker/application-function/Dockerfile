@@ -6,6 +6,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
 RUN apt-get update && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository -y universe && \
+    apt-get update && \
     apt-get install -y \
     bison \
     build-essential \
@@ -41,7 +44,9 @@ RUN apt-get update && \
     python3-venv \
     python3-wheel \
     python3-yaml \
-    wget
+    wget && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Clone the repository
 RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application-function.git

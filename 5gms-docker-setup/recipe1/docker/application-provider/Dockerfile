@@ -12,7 +12,7 @@ RUN apt-get update && \
     && apt-get clean
 
 # Clone the repository
-RUN git clone --recurse-submodules -b development https://github.com/5G-MAG/rt-5gms-application-provider.git /rt-5gms-application-provider
+RUN git clone --recurse-submodules -b fix/management-ui https://github.com/5G-MAG/rt-5gms-application-provider.git /rt-5gms-application-provider
 
 # Set working directory
 WORKDIR /rt-5gms-application-provider
@@ -28,7 +28,7 @@ RUN python3 -m venv /opt/venv && \
 ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy the entrypoint script
-COPY application-provider-entrypoint.sh /usr/local/bin/application-provider-entrypoint.sh
+COPY docker/application-provider/entrypoint.sh /usr/local/bin/application-provider-entrypoint.sh
 
 # Set execute permissions for the entrypoint script
 RUN chmod +x /usr/local/bin/application-provider-entrypoint.sh
