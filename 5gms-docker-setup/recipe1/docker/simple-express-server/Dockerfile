@@ -12,10 +12,9 @@ COPY --from=source /src/simple-express-server/package*.json ./
 RUN npm ci --omit=dev
 
 COPY --from=source /src/simple-express-server/ ./
-COPY simple-express-server-entrypoint.sh /usr/local/bin/simple-express-server-entrypoint.sh
+COPY docker/simple-express-server/entrypoint.sh /usr/local/bin/simple-express-server-entrypoint.sh
 
 RUN chmod +x /usr/local/bin/simple-express-server-entrypoint.sh \
 	&& mkdir -p /etc/5gmag/ses/conf /opt/simple-express-server/public
 
 CMD ["/usr/local/bin/simple-express-server-entrypoint.sh"]
-

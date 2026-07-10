@@ -1,0 +1,92 @@
+name: recipe1
+
+services:
+  # Does not start a second Application Server. It overlays the existing application-server service.
+  # NOTE: CMCD forwarding is enabled via the `cmcd_collector_url` setting in
+  # configs/application-server.conf, NOT via an env var (the AS does not read env for this).
+  application-server:
+    networks:
+      - default
+
+  application-provider:
+    environment:
+      - CMCD_INFLUXDB_URL=http://cmcd-influxdb:8086
+      - CMCD_INFLUXDB_DB=analytics
+    networks:
+      - default
+
+  cmcd-collector:
+    build:
+      context: ../
+      dockerfile: docker/cmcd/collector/Dockerfile
+      args:
+        CMCD_TOOLKIT_REF: ${CMCD_TOOLKIT_REF:-a3b8ab7ebd8b492bb8a944b71b011e5d49224318}
+    ports:
+      - "3000:3000"
+    environment:
+      - LOCAL_ENABLED=true
+      - LOCAL_FLUENTD_HOST=cmcd-fluentd
+      - LOCAL_FLUENTD_PORT=24224
+      - LOCAL_FLUENTD_TAG=node.collector
+    depends_on:
+      - cmcd-fluentd
+    networks:
+      - default
+
+  cmcd-influxdb:
+    image: influxdb:1.8
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=analytics
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin_password
+    volumes:
+      - cmcd_influxdb_data:/var/lib/influxdb
+    networks:
+      default:
+        aliases:
+          - influxdb
+
+  cmcd-fluentd:
+    build:
+      context: ../
+      dockerfile: docker/cmcd/fluentd/Dockerfile
+      args:
+        CMCD_TOOLKIT_REF: ${CMCD_TOOLKIT_REF:-a3b8ab7ebd8b492bb8a944b71b011e5d49224318}
+    restart: unless-stopped
+    volumes:
+      - cmcd_fluentd_buffer:/fluentd/log/buffer
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    environment:
+      - INFLUXDB_HOST=cmcd-influxdb
+      - INFLUXDB_PORT=8086
+      - INFLUXDB_DB=analytics
+      - INFLUXDB_USER=admin
+      - INFLUXDB_PASSWORD=admin_password
+      - INFLUXDB_MEASUREMENT=cmcd_metrics
+    depends_on:
+      - cmcd-influxdb
+    networks:
+      - default
+
+  cmcd-grafana:
+    build:
+      context: ../
+      dockerfile: docker/cmcd/grafana/Dockerfile
+      args:
+        CMCD_TOOLKIT_REF: ${CMCD_TOOLKIT_REF:-a3b8ab7ebd8b492bb8a944b71b011e5d49224318}
+    ports:
+      - "8081:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    networks:
+      - default
+
+volumes:
+  cmcd_influxdb_data:
+  cmcd_fluentd_buffer:

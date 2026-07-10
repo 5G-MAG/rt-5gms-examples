@@ -1,0 +1,26 @@
+{
+  "5G-MAG.tv 1": {
+    "title": "5G-MAG.tv 1",
+    "description": "This is funny 3D animation short film Caminandes 1: Llama Drama, the first episode of Caminandes cartoon series, produced by Pablo Vazquez, Beorn Leonard and Francesco Siddi at the Blender Institute as a fun challenge, and turned into a polished piece within a few weeks. ",
+    "posterUrl": "posters/TV_1.png",
+    "mediaType": "movie"
+  },
+  "5G-MAG.tv 2": {
+    "title": "5G-MAG.tv 2",
+    "description": "This is funny 3D animation short film Caminandes 2: Gran Dillama, the second episode of Caminandes cartoon series, produced by Blender Institute in Amsterdam, the Netherlands.",
+    "posterUrl": "posters/TV_2.png",
+    "mediaType": "movie"
+  },
+  "5G-MAG.tv 3": {
+    "title": "5G-MAG.tv 3",
+    "description": "This is 3D animation short film Caminandes 3: Llamigos, the third episode of Caminandes cartoon series we get to know our hero Koro even better! It's winter in Patagonia, food is getting scarce. Koro the Llama engages with Oti the pesky penguin in an epic fight over that last tasty berry.",
+    "posterUrl": "posters/TV_3.png",
+    "mediaType": "movie"
+  },
+  "5G-MAG.r news": {
+    "title": "5G-MAG.r news",
+    "description": "This is a programme airing an AI-generated interview about the 5G-MAG Reference Tools which is full of inacuracies but... so be it.",
+    "posterUrl": "posters/RADIO.png",
+    "mediaType": "radio"
+  }
+}

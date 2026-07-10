@@ -1,0 +1,95 @@
+name: recipe1
+
+services:
+  application-server:
+    container_name: application-server
+    labels:
+      monitor.group: "5G Media Streaming"
+    build:
+      context: ../
+      dockerfile: docker/application-server/Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ../configs/application-server.conf:/etc/5gmag/as/conf/application-server.conf
+      - ../shared:/shared
+    networks:
+      5g-mag:
+        aliases:
+          - application-server.5g-mag.org
+
+  application-function:
+    container_name: application-function
+    labels:
+      monitor.group: "5G Media Streaming"
+    build:
+      context: ../
+      dockerfile: docker/application-function/Dockerfile
+    ports:
+      - "5555:5555" # M1 Port
+      - "7778:7778" # M5 Port
+      - "4444:4444"
+      - "6464:6464" # MAF port
+    volumes:
+      - ../configs/msaf_with_5GC.yaml:/etc/open5gs/alternate-msaf.yaml
+      - ../af-reports:/af-reports
+    networks:
+      5g-mag:
+        aliases:
+          - application-function.5g-mag.org
+    depends_on:
+      - application-server
+
+  application-provider:
+    container_name: application-provider
+    labels:
+      monitor.group: "5G Media Streaming"
+    build:
+      context: ../
+      dockerfile: docker/application-provider/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../configs/initial-config.json:/etc/rt-5gms/initial-config.json
+      - ../configs/media.conf:/etc/rt-5gms/media.conf
+      - ../configs/maf-client.conf:/tmp/maf-client.conf:ro
+      - ../shared:/usr/share/nginx/html
+      - ../af-reports:/af-reports:ro
+    networks:
+      5g-mag:
+        aliases:
+          - application-provider.5g-mag.org
+    depends_on:
+      - application-function
+      - application-server
+    environment:
+      - M1_PORT=5555
+      - RUN_MSAF_CONFIGURATION_TOOL=true
+      - RUN_MANAGEMENT_UI=true
+      - USE_MAF_CLIENT_CONF=true
+      - OPTIONS_ENDPOINT=http://application-function.5g-mag.org:5555/3gpp-m1/v2/provisioning-sessions/
+
+  simple-express-server:
+    container_name: simple-express-server
+    labels:
+      monitor.group: "5G Media Streaming"
+    build:
+      context: ../
+      dockerfile: docker/simple-express-server/Dockerfile
+    ports:
+      - "3344:3344"
+    volumes:
+      - ../configs/simple-express-server.conf:/etc/5gmag/ses/conf/simple-express-server.conf:ro
+      - ../simple-express-public:/opt/simple-express-server/public
+    networks:
+      5g-mag:
+        aliases:
+          - simple-express-server.5g-mag.org
+    depends_on:
+      - application-function
+      - application-server
+      - application-provider
+
+networks:
+  5g-mag:
+    external: true

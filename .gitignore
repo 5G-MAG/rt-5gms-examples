@@ -4,4 +4,8 @@ express-mock-af/public/content
 express-mock-af/public/reports
 5gms-docker-setup/recipe1/shared
 5gms-docker-setup/recipe1/logs/as
+5gms-docker-setup/recipe1/af-reports/
+5gms-docker-setup/recipe1/af-reports.zip
+5gms-docker-setup/recipe1_with_5GC/af-reports/
+5gms-docker-setup/recipe1_with_5GC/af-reports.zip
 
