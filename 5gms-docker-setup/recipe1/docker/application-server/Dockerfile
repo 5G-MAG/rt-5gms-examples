@@ -2,7 +2,8 @@
 FROM ubuntu:22.04
 
 # Install dependencies
-RUN apt-get update && \
+RUN rm -rf /var/lib/apt/lists/* && apt-get clean && \
+    apt-get update -o Acquire::Check-Valid-Until=false && \
     apt-get install -y \
     git \
     python3-pip \

@@ -33,17 +33,6 @@ services:
     networks:
       - default
 
-  cmcd-player:
-    build:
-      context: ../
-      dockerfile: docker/cmcd/player/Dockerfile
-      args:
-        CMCD_TOOLKIT_REF: ${CMCD_TOOLKIT_REF:-a3b8ab7ebd8b492bb8a944b71b011e5d49224318}
-    ports:
-      - "8080:3000"
-    networks:
-      - default
-
   cmcd-influxdb:
     image: influxdb:1.8
     restart: unless-stopped

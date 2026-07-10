@@ -5,10 +5,11 @@ FROM ubuntu:24.04
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
-RUN apt-get update && \
+RUN rm -rf /var/lib/apt/lists/* && apt-get clean && \
+    apt-get update -o Acquire::Check-Valid-Until=false && \
     apt-get install -y software-properties-common && \
     add-apt-repository -y universe && \
-    apt-get update && \
+    apt-get update -o Acquire::Check-Valid-Until=false && \
     apt-get install -y \
     bison \
     build-essential \

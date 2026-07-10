@@ -82,7 +82,7 @@ Start the 5GC stack with CMCD support after the 5G Core is running:
 docker compose --env-file .env -f compose/docker-compose-5gms.yml -f compose/docker-compose-cmcd.yml up -d
 ```
 
-The CMCD collector is available at port `3000`, the player at port `8080`, and the Grafana dashboard at port `8081` (login: `admin` / `grafana`).
+The CMCD collector is available at port `3000` and the Grafana dashboard at port `8081` (login: `admin` / `grafana`). CMCD reports come from an external Android-based player.
 
 ## Installation
 
