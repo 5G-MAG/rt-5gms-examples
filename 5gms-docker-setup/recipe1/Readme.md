@@ -68,7 +68,9 @@ the webserver. All files in the `simple-express-public` folder are hosted by the
 
 ## CMCD Analytics (optional)
 
-An optional `compose/docker-compose-cmcd.yml` overlay adds CMCD analytics support: a collector, a Fluentd log shipper, InfluxDB, a Grafana dashboard, and a CMCD-instrumented player. The required CMCD Toolkit sources are cloned during the Docker image build at a pinned commit; no local clone or environment variable is needed. To build from a different CMCD Toolkit branch, tag, or commit, set `CMCD_TOOLKIT_REF` before running Docker Compose.
+An optional `compose/docker-compose-cmcd.yml` overlay adds CMCD analytics support: a collector, a Fluentd log shipper, InfluxDB, and a Grafana dashboard. The required CMCD Toolkit sources are cloned during the Docker image build at a pinned commit; no local clone or environment variable is needed. To build from a different CMCD Toolkit branch, tag, or commit, set `CMCD_TOOLKIT_REF` before running Docker Compose.
+
+CMCD forwarding is enabled by the `cmcd_collector_url` setting in `configs/application-server.conf` (already pointed at the collector by default). The Application Server only relays CMCD received on `M4d` media requests (paths under `/m4d/provisioning-session-<id>/`). Note that the `CMCD_COLLECTOR_URL` environment variable is **not** read by the Application Server — the config-file setting is the switch.
 
 Start the standalone stack with CMCD support:
 
@@ -82,7 +84,7 @@ Start the 5GC stack with CMCD support after the 5G Core is running:
 docker compose --env-file .env -f compose/docker-compose-5gms.yml -f compose/docker-compose-cmcd.yml up -d
 ```
 
-The CMCD collector is available at port `3000` and the Grafana dashboard at port `8081` (login: `admin` / `grafana`). CMCD reports come from an external Android-based player.
+The CMCD collector is available at port `3000` and the Grafana dashboard at port `8081` (login: `admin` / `grafana`). CMCD metrics are also viewable in the Application Provider Management UI at `http://127.0.0.1:8000/`. CMCD reports come from an external Android-based player.
 
 ## Installation
 
@@ -167,6 +169,22 @@ remove files in the `simple-express-public/posters` folder.
 If `RUN_MANAGEMENT_UI` is set to `true` in the Docker Compose file, the 5GMS Application Provider Management UI is
 started and available at `http://127.0.0.1:8000/`.
 
+### QoE Metrics and Consumption Reports
+
+The Management UI includes a **QoE Metrics** tab that lists the reports collected by the Application Function.
+The Application Function writes these reports to the directory configured as `dataCollectionDir` in the MSAF
+config (`/af-reports`, see `configs/msaf.yaml`). That path is mounted from the host `af-reports` folder and is
+also mounted read-only into the Application Provider so the UI can read it.
+
+In the QoE Metrics tab, enter the **container** path, not a host path:
+
+```
+/af-reports
+```
+
+Entering the host path (e.g. `/Users/.../recipe1/af-reports`) results in `Reports directory not found`, because
+the Management UI runs inside the container and only sees the mounted `/af-reports`.
+
 ### External REST client
 
 After the containers are built and started, the 5GMS Application Function and the 5GMS Application Server are
@@ -204,6 +222,13 @@ To stop the 5GMS components:
 To stop the 5G Core:
 
 `docker compose --env-file .env -f compose/docker-compose-5gc.yml down`
+
+### With CMCD analytics
+
+If you started the stack with the CMCD overlay, include the same overlay when tearing down. Add `-v` to also
+remove the InfluxDB and Fluentd volumes:
+
+`docker compose -f compose/docker-compose_5gms_without_5GC.yml -f compose/docker-compose-cmcd.yml down -v`
 
 ## FAQ
 

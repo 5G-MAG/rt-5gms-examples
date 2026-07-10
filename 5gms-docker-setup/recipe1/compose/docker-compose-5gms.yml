@@ -54,6 +54,7 @@ services:
       - ../configs/media.conf:/etc/rt-5gms/media.conf
       - ../configs/maf-client.conf:/tmp/maf-client.conf:ro
       - ../shared:/usr/share/nginx/html
+      - ../af-reports:/af-reports:ro
     networks:
       5g-mag:
         aliases:
