@@ -12,6 +12,11 @@ new features for 5GMS.
 
 Additional information can be found at: https://5g-mag.github.io/Getting-Started/pages/5g-media-streaming/
 
+## Versioning
+
+The repository version is kept in the [`VERSION`](./VERSION) file and mirrors the release tags
+(format `rt-5gms-examples-vX.Y.Z`). Bump `VERSION` in the pull request that prepares a release.
+
 ## Cloning
 
 Clone the repository to your home directory:
