@@ -140,7 +140,7 @@ COMMON_SHARED_PATH=/absolute/path/to/rt-common-shared
 Start the monitor from the `recipe1` folder:
 
 ```bash
-docker compose -f /absolute/path/to/rt-common-shared/docker-monitor/docker-compose-monitor.yml up -d
+docker compose --env-file .env -f /absolute/path/to/rt-common-shared/docker-monitor/docker-compose-monitor.yml up -d
 ```
 
 Then open **http://localhost:3002** in your browser.

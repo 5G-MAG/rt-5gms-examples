@@ -2,6 +2,8 @@ name: recipe1
 
 services:
     application-server:
+        labels:
+            monitor.group: "5G Media Streaming"
         build:
             context: ../
             dockerfile: docker/application-server/Dockerfile
@@ -14,6 +16,8 @@ services:
             - default
 
     application-function:
+        labels:
+            monitor.group: "5G Media Streaming"
         build:
             context: ../
             dockerfile: docker/application-function/Dockerfile
@@ -29,6 +33,8 @@ services:
             - application-server
 
     application-provider:
+        labels:
+            monitor.group: "5G Media Streaming"
         build:
             context: ../
             dockerfile: docker/application-provider/Dockerfile
@@ -52,6 +58,8 @@ services:
         networks:
             - default
     simple-express-server:
+        labels:
+            monitor.group: "5G Media Streaming"
         build:
             context: ../
             dockerfile: docker/simple-express-server/Dockerfile
