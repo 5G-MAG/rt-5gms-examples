@@ -58,5 +58,18 @@ services:
             - application-server
             - application-provider
 
+    cmmf-origin-server:
+        build:
+            context: ./
+            dockerfile: Dockerfile-Simple-Express-Server
+        ports:
+            - "3345:3344"
+        volumes:
+            - ./cmmf-origin-server.conf:/etc/5gmag/ses/conf/simple-express-server.conf:ro
+            - ./cmmf-origin-public:/opt/simple-express-server/public
+        depends_on:
+            - application-function
+            - application-server
+
 
 # See: https://docs.docker.com/compose/how-tos/networking/
