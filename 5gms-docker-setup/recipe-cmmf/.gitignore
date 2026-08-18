@@ -1,0 +1,6 @@
+# Ignore runtime-generated output from AS/AF/AP containers so
+# `docker compose up` does not dirty the working tree.
+shared/*
+!shared/.gitkeep
+af-reports/*
+!af-reports/.gitkeep
