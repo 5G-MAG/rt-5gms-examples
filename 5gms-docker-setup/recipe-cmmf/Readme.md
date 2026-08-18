@@ -42,7 +42,7 @@ per CDN, matching the `distributionConfigurations[].domainNameAlias`
 placeholders `<YOUR_MACHINE_IP_HERE>:8001` / `:8002` in `configs/initial-config.json`.
 
 The overall shape follows the CMMF variant of the recipe1 diagram at
-[`../recipe1/img/docker_compose_recipe_cmmf.png`](../recipe1/img/docker_compose_recipe_cmmf.png).
+[`img/docker_compose_recipe_cmmf.png`](img/docker_compose_recipe_cmmf.png).
 
 ## Required Configuration
 
