@@ -70,7 +70,7 @@
     },
     "CMMFvod": {
       "name": "5G-MAG CMMF Vod demo",
-      "ingestURL": "http://<YOUR_INGEST_URL_HERE>",
+      "ingestURL": "http://cmmf-origin-server:3344/",
       "distributionConfigurations": [
         {
           "domainNameAlias": "<YOUR_MACHINE_IP_HERE>:8001"
