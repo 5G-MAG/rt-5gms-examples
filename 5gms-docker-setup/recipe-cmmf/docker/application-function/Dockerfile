@@ -5,7 +5,11 @@ FROM ubuntu:24.04
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
-RUN apt-get update && \
+RUN rm -rf /var/lib/apt/lists/* && apt-get clean && \
+    apt-get update -o Acquire::Check-Valid-Until=false && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository -y universe && \
+    apt-get update -o Acquire::Check-Valid-Until=false && \
     apt-get install -y \
     bison \
     build-essential \
@@ -41,10 +45,12 @@ RUN apt-get update && \
     python3-venv \
     python3-wheel \
     python3-yaml \
-    wget
+    wget && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Clone the repository
-RUN git clone --recurse-submodules --branch development https://github.com/5G-MAG/rt-5gms-application-function.git
+RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application-function.git
 
 # Set working directory
 WORKDIR /rt-5gms-application-function

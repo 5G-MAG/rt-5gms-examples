@@ -2,7 +2,8 @@
 FROM ubuntu:22.04
 
 # Install dependencies
-RUN apt-get update && \
+RUN rm -rf /var/lib/apt/lists/* && apt-get clean && \
+    apt-get update -o Acquire::Check-Valid-Until=false && \
     apt-get install -y \
     git \
     python3-pip \
@@ -30,7 +31,7 @@ ENV PATH="/usr/local/openresty/nginx/sbin:$PATH"
 RUN systemctl disable --now nginx.service openresty.service || true
 
 # Clone the repository
-RUN git clone --recurse-submodules --branch development https://github.com/5G-MAG/rt-5gms-application-server.git /5gms-application-server
+RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application-server.git /5gms-application-server
 
 # Set the working directory
 WORKDIR /5gms-application-server

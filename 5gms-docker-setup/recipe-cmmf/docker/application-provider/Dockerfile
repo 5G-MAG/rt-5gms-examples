@@ -2,7 +2,8 @@
 FROM ubuntu:24.04
 
 # Install dependencies
-RUN apt-get update && \
+RUN rm -rf /var/lib/apt/lists/* && apt-get clean && \
+    apt-get update -o Acquire::Check-Valid-Until=false && \
     apt-get install -y \
     git \
     python3-pip \
@@ -12,7 +13,7 @@ RUN apt-get update && \
     && apt-get clean
 
 # Clone the repository
-RUN git clone --recurse-submodules -b development https://github.com/5G-MAG/rt-5gms-application-provider.git /rt-5gms-application-provider
+RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application-provider.git /rt-5gms-application-provider
 
 # Set working directory
 WORKDIR /rt-5gms-application-provider
