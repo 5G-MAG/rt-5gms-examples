@@ -35,26 +35,26 @@ Media Entrypoint flow end-to-end:
 
 The two CMMF Application Server instances pull-ingest from the CMMF origin
 via M1 configuration written by `msaf-configuration` (running inside
-`application-provider`) from `initial-config.json`. On M8, the resulting
+`application-provider`) from `configs/initial-config.json`. On M8, the resulting
 `ServiceListEntry` "VOD: CMMF" carries two entry points with
 `contentType: "application/vnd.cmmf-configuration-information+json"`, one
 per CDN, matching the `distributionConfigurations[].domainNameAlias`
-placeholders `<YOUR_MACHINE_IP_HERE>:8001` / `:8002` in `initial-config.json`.
+placeholders `<YOUR_MACHINE_IP_HERE>:8001` / `:8002` in `configs/initial-config.json`.
 
 The overall shape follows the CMMF variant of the recipe1 diagram at
 [`../recipe1/img/docker_compose_recipe_cmmf.png`](../recipe1/img/docker_compose_recipe_cmmf.png).
 
 ## Required Configuration
 
-Before `docker compose up`, provide two configuration changes.
+Before starting the containers, provide two configuration changes.
 
-In `media.conf`, replace `<<ADD_YOUR_IP_HERE>>` with the host machine's IP, e.g.:
+In `configs/media.conf`, replace `<<ADD_YOUR_IP_HERE>>` with the host machine's IP, e.g.:
 
 ````
 m5_authority = 10.147.67.219:7778
 ````
 
-In `initial-config.json`, replace every `<YOUR_MACHINE_IP_HERE>` placeholder with the
+In `configs/initial-config.json`, replace every `<YOUR_MACHINE_IP_HERE>` placeholder with the
 host machine's IP. The `CMMFvod` stream carries two aliases with the ports pre-set:
 
 ````
@@ -73,8 +73,8 @@ client-side CMMF Media Access Client can reach the two AS instances directly.
 ## Optional Configuration
 
 The 5GMS Application Function and 5GMS Application Server configuration files are
-`msaf.yaml`, `application-server.conf`, `application-server-cmmf-a.conf`, and
-`application-server-cmmf-b.conf`, mounted into their respective containers at runtime.
+`configs/msaf.yaml`, `configs/application-server.conf`, `configs/application-server-cmmf-a.conf`, and
+`configs/application-server-cmmf-b.conf`, mounted into their respective containers at runtime.
 
 For details on the underlying configuration options, see the
 [Application Function](https://5g-mag.github.io/Getting-Started/pages/5g-media-streaming/usage/application-function/configuration-5GMSAF.html)
@@ -85,7 +85,10 @@ docs.
 The `simple-express-server` continues to host non-CMMF catalogue metadata and
 posters from `simple-express-public/` on port `3344`. The new
 `cmmf-origin-server` runs an independent instance of the same image against
-`cmmf-origin-server.conf`, serving `cmmf-origin-public/` on host port `3345`.
+`configs/cmmf-origin-server.conf`, serving `cmmf-origin-public/` on host port `3345`.
+
+All non-CMMF catalogue files in the `simple-express-public` folder are hosted by the webserver and available at
+`http://<YOUR_IP_ADDRESS>:3344/`. 
 
 ## Installation
 
@@ -95,19 +98,22 @@ Navigate to the `5gms-docker-setup/recipe-cmmf` folder of this repository:
 cd 5gms-docker-setup/recipe-cmmf
 ```
 
-Start Docker Compose to build the containers and start the services:
+Start Docker Compose to build the containers and start the services. The recipe
+ships two compose files: a base file for the four services shared with
+`recipe1` and a CMMF overlay that adds the origin and the two emulated CDN
+instances. Combine them with `-f`:
 
 ```
-docker compose up
+docker compose -f compose/docker-compose_5gms_without_5GC.yml -f compose/docker-compose-cmmf.yml up
 ```
 
 ## Usage
 
 ### msaf-configuration
 
-If `RUN_MSAF_CONFIGURATION_TOOL` is enabled in the `docker-compose.yaml` , the `msaf-configuration` tool is executed
-when you launch the Docker containers via `docker compose up`. The
-`msaf-configuration` tool uses the `initial-config.json` to create provisioning sessions and content hosting
+If `RUN_MSAF_CONFIGURATION_TOOL` is enabled in `compose/docker-compose_5gms_without_5GC.yml`, the `msaf-configuration` tool is executed
+when you launch the Docker containers. The
+`msaf-configuration` tool uses `configs/initial-config.json` to create provisioning sessions and content hosting
 configurations via
 the `M1` endpoint of the `Application Function`. It
 also creates an `m8.json` that serves as the starting point for the 5GMS Aware Application. For details refer to
@@ -129,7 +135,7 @@ exactly as in `recipe1`.
 
 ### Management UI
 
-If `RUN_MANAGEMENT_UI` in the `docker-compose.yaml` is set to `true`, the 5GMS Application Provider Management UI is
+If `RUN_MANAGEMENT_UI` in `compose/docker-compose_5gms_without_5GC.yml` is set to `true`, the 5GMS Application Provider Management UI is
 started and available at `http://127.0.0.1:8000/`.
 
 ### External REST client
@@ -157,6 +163,15 @@ curl http://<host-ip>:8001/m4d/provisioning-session-<id>/cmmf/config/vodConfig.j
 curl http://<host-ip>:8002/m4d/provisioning-session-<id>/cmmf/config/vodConfig.json
 ```
 
+## Tearing down
+
+Stop the recipe with the same compose files used to start it — the base file and the CMMF overlay:
+
+`docker compose -f compose/docker-compose_5gms_without_5GC.yml -f compose/docker-compose-cmmf.yml down`
+
+`shared/` and `af-reports/` are host bind mounts, not Docker-managed volumes, so `down` (with or without `-v`) leaves
+them in place. Delete their contents manually if you want a clean slate for the next run.
+
 ## FAQ
 
 ### `m8.json` is not created
@@ -168,11 +183,11 @@ If you run into an issue where the `m8.json` is not created, make sure that the 
 folder. There should be a `localhost` folder, and inside that folder, there should be a `m8.json` file. In addition, a
 similar folder with the IP of your host machine should be created. It also contains an `m8.json` file.
 
-If one or both of these folders are missing, create them manually and run `docker compose up` again.
+If one or both of these folders are missing, create them manually and re-run the compose command above.
 
 ### The `CMMFvod` stream returns no entry points on M8
 
 Check that the `cmmf-origin-server` service is healthy and that
-`initial-config.json`'s `streams.CMMFvod.ingestURL` still points at
+`configs/initial-config.json`'s `streams.CMMFvod.ingestURL` still points at
 `http://cmmf-origin-server:3344/` — if it was edited to a host-facing URL,
 the AS containers inside the compose network cannot resolve it.
