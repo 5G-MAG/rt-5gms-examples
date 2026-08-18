@@ -23,7 +23,7 @@
       },
       "serviceLocations": [
         {
-          "baseUrl": "https://<YOUR_MACHINE_IP_HERE>:8001/",
+          "baseUrl": "http://<YOUR_MACHINE_IP_HERE>:8001/",
           "variantId": "cmmf-variant-a",
           "requestPathMaps": [
             {
@@ -33,7 +33,7 @@
           ]
         },
         {
-          "baseUrl": "https://<YOUR_MACHINE_IP_HERE>:8002/",
+          "baseUrl": "http://<YOUR_MACHINE_IP_HERE>:8002/",
           "variantId": "cmmf-variant-b",
           "requestPathMaps": [
             {
