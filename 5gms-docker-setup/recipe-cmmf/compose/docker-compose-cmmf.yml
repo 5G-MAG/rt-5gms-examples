@@ -1,0 +1,56 @@
+name: recipe-cmmf
+
+services:
+    # CMMF Entry Point origin: serves cmmf/config/vodConfig.json (and, once
+    # supplied, cmmf/media/*) on the compose network so the two CMMF AS
+    # instances can pull-ingest it. Reuses the simple-express-server image.
+    cmmf-origin-server:
+        labels:
+            monitor.group: "5G Media Streaming"
+        build:
+            context: ../
+            dockerfile: docker/simple-express-server/Dockerfile
+        ports:
+            - "3345:3344"
+        volumes:
+            - ../configs/cmmf-origin-server.conf:/etc/5gmag/ses/conf/simple-express-server.conf:ro
+            - ../cmmf-origin-public:/opt/simple-express-server/public
+        depends_on:
+            - application-function
+            - application-server
+        networks:
+            - default
+
+    # Emulated CDN A for the CMMFvod stream, exposed on host port 8001.
+    application-server-cmmf-a:
+        labels:
+            monitor.group: "5G Media Streaming"
+        build:
+            context: ../
+            dockerfile: docker/application-server/Dockerfile
+        ports:
+            - "8001:80"
+        volumes:
+            - ../configs/application-server-cmmf-a.conf:/etc/5gmag/as/conf/application-server.conf
+            - ../shared:/shared
+        depends_on:
+            - application-function
+        networks:
+            - default
+
+    # Emulated CDN B for the CMMFvod stream, exposed on host port 8002.
+    application-server-cmmf-b:
+        labels:
+            monitor.group: "5G Media Streaming"
+        build:
+            context: ../
+            dockerfile: docker/application-server/Dockerfile
+        ports:
+            - "8002:80"
+        volumes:
+            - ../configs/application-server-cmmf-b.conf:/etc/5gmag/as/conf/application-server.conf
+            - ../shared:/shared
+        depends_on:
+            - application-function
+        networks:
+            - default

@@ -2,5 +2,7 @@
 # `docker compose up` does not dirty the working tree.
 shared/*
 !shared/.gitkeep
-af-reports/*
+af-reports/*/
 !af-reports/.gitkeep
+simple-express-public/watchfolder/
+simple-express-public/OLD/
