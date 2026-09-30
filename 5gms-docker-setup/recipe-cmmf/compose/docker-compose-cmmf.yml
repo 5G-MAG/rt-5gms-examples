@@ -1,9 +1,9 @@
 name: recipe-cmmf
 
 services:
-    # CMMF Entry Point origin: serves cmmf/config/vodConfig.json (and, once
-    # supplied, cmmf/media/*) on the compose network so the two CMMF AS
-    # instances can pull-ingest it. Reuses the simple-express-server image.
+    # CMMF Entry Point origin: serves cmmf/config/vodConfig.json (rendered
+    # synchronously by application-provider's CmmfVodConfigFormatter, see
+    # configs/media.conf) and cmmf/media/* once supplied.
     cmmf-origin-server:
         labels:
             monitor.group: "5G Media Streaming"
@@ -76,3 +76,11 @@ services:
                 condition: service_healthy
             application-server-cmmf-c:
                 condition: service_healthy
+
+    # CmmfVodConfigFormatter (registered via configs/media.conf's m8outputs) writes
+    # vodConfig.json from cmmf-origin-public/cmmf/config/vodConfig.json.tmpl in the
+    # same msaf-configuration run that writes m8.json, so it needs write access to
+    # that directory alongside the base file's ../shared:/usr/share/nginx/html mount.
+    application-provider:
+        volumes:
+            - ../cmmf-origin-public/cmmf/config:/etc/rt-5gms/cmmf-config

@@ -1,0 +1,68 @@
+{
+  "version": 0,
+  "ttl": 3600,
+  "applicationResourceLocators": [
+    {
+      "locator": "http://<YOUR_MACHINE_IP_HERE>:8001__M4_PATH_PREFIX__/cmmf/media/original/repousse_v2/dash/external/2s/repousse_v2.mpd",
+      "contentType": "application/dash+xml",
+      "isManifest": true
+    },
+    {
+      "locator": "http://<YOUR_MACHINE_IP_HERE>:8002__M4_PATH_PREFIX__/cmmf/media/original/repousse_v2/dash/external/2s/repousse_v2.mpd",
+      "contentType": "application/dash+xml",
+      "isManifest": true
+    },
+    {
+      "locator": "http://<YOUR_MACHINE_IP_HERE>:8003__M4_PATH_PREFIX__/cmmf/media/original/repousse_v2/dash/external/2s/repousse_v2.mpd",
+      "contentType": "application/dash+xml",
+      "isManifest": true
+    }
+  ],
+  "applicationResourceConfigurations": [
+    {
+      "admissionRules": {
+        "applicationResourcePathPattern": [".*\\.(m4s|mp4|ts)$"]
+      },
+      "exclusionRules": {
+        "applicationResourcePathPattern": ["^init.*|.*\\.(mpd|m3u8)$"]
+      },
+      "cmmfCodingConfiguration": {
+        "cmmfProfile": "org.etsi.cmmf.a",
+        "cmmfCodeType": 0,
+        "cmmfVersion": 0
+      },
+      "serviceLocations": [
+        {
+          "baseUrl": "http://<YOUR_MACHINE_IP_HERE>:8001__M4_PATH_PREFIX__/",
+          "variantId": "cmmf-variant-a",
+          "requestPathMaps": [
+            {
+              "requestPathPattern": "\/(?=[^\/]*$)",
+              "mappedPath": "/cmmf-variant-a/"
+            }
+          ]
+        },
+        {
+          "baseUrl": "http://<YOUR_MACHINE_IP_HERE>:8002__M4_PATH_PREFIX__/",
+          "variantId": "cmmf-variant-b",
+          "requestPathMaps": [
+            {
+              "requestPathPattern": "\/(?=[^\/]*$)",
+              "mappedPath": "/cmmf-variant-b/"
+            }
+          ]
+        },
+        {
+          "baseUrl": "http://<YOUR_MACHINE_IP_HERE>:8003__M4_PATH_PREFIX__/",
+          "variantId": "cmmf-variant-c",
+          "requestPathMaps": [
+            {
+              "requestPathPattern": "\/(?=[^\/]*$)",
+              "mappedPath": "/cmmf-variant-c/"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

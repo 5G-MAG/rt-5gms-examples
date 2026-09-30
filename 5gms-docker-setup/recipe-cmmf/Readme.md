@@ -126,10 +126,23 @@ the [Tutorial - 5GMSd: Basic end to end setup](https://5g-mag.github.io/Getting-
 ### Placing CMMF-encoded media
 
 Drop the CMMF-encoded content into
-`cmmf-origin-public/cmmf/media/`. The seeded `vodConfig.json` references a
+`cmmf-origin-public/cmmf/media/`. The seeded `vodConfig.json.tmpl` references a
 manifest at `media/manifest.mpd` relative to the origin root; adjust that
 `applicationResourceLocators[0].locator` if the encoder produces a different
 filename.
+
+`vodConfig.json` itself is **generated**, not static: `application-provider`'s
+`msaf-configuration` tool renders it from `vodConfig.json.tmpl` via `CmmfVodConfigFormatter`
+(a registered `M8Output`, see `configs/media.conf`'s `m8outputs` setting), in the same
+M1-sync step that writes `m8.json` — substituting the live `/m4d/provisioning-session-<id>/`
+prefix taken directly from the resolved distribution base URL into every
+`applicationResourceLocators[].locator` and `applicationResourceConfigurations[].serviceLocations[].baseUrl`
+field, in place of the `__M4_PATH_PREFIX__` placeholder. **Always edit `vodConfig.json.tmpl`**,
+never the generated `vodConfig.json` (it's gitignored and gets overwritten on every
+`docker compose up`), and leave the `__M4_PATH_PREFIX__` placeholder as-is.
+
+The formatter matches the `CMMFvod` stream's entry point via its content type
+(`application/vnd.cmmf-configuration-information+json`).
 
 ### Metadata for 5GMS Aware Application
 
@@ -197,3 +210,16 @@ Check that the `cmmf-origin-server` service is healthy and that
 `configs/initial-config.json`'s `streams.CMMFvod.ingestURL` still points at
 `http://cmmf-origin-server:3344/` — if it was edited to a host-facing URL,
 the AS containers inside the compose network cannot resolve it.
+
+### `vodConfig.json`'s `baseUrl`/`locator` fields 404 when fetched through `application-server-cmmf-*`
+
+`vodConfig.json` is generated from `vodConfig.json.tmpl` by `application-provider`'s
+`msaf-configuration` tool (see "Placing CMMF-encoded media" above), synchronously with `m8.json`.
+Diagnosing a 404 response code:
+
+- Confirm `vodConfig.json.tmpl` exists under `cmmf-origin-public/cmmf/config/` and that
+  `application-provider` has write access to that directory (`compose/docker-compose-cmmf.yml`'s
+  `application-provider` mount).
+- Confirm with `curl http://<host-ip>:3345/cmmf/config/vodConfig.json` that the served
+  `baseUrl`/`locator` fields actually contain a `/m4d/provisioning-session-<id>/` segment matching
+  the `CMMFvod` entry in `curl http://<host-ip>:8000/m8.json`.
