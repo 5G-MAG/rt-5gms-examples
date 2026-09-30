@@ -7,7 +7,7 @@
       "ingestURL": "https://media.axprod.net/",
       "distributionConfigurations": [
         {
-          "domainNameAlias": "<YOUR_MACHINE_IP_HERE>"
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>"
         }
       ],
       "consumptionReporting": {
@@ -29,13 +29,13 @@
       "ingestURL": "http://cmmf-origin-server:3344/",
       "distributionConfigurations": [
         {
-          "domainNameAlias": "<YOUR_MACHINE_IP_HERE>:8001"
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:8001"
         },
         {
-          "domainNameAlias": "<YOUR_MACHINE_IP_HERE>:8002"
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:8002"
         },
         {
-          "domainNameAlias": "<YOUR_MACHINE_IP_HERE>:8003"
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:8003"
         }
       ],
       "consumptionReporting": {

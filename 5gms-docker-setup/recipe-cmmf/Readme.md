@@ -41,7 +41,7 @@ via M1 configuration written by `msaf-configuration` (running inside
 `ServiceListEntry` "VOD: CMMF" carries three entry points with
 `contentType: "application/vnd.cmmf-configuration-information+json"`, one
 per CDN, matching the `distributionConfigurations[].domainNameAlias`
-placeholders `<YOUR_MACHINE_IP_HERE>:8001` / `:8002` / `:8003` in `configs/initial-config.json`.
+placeholders `<<ADD_YOUR_IP_HERE>>:8001` / `:8002` / `:8003` in `configs/initial-config.json`.
 
 The overall shape follows the CMMF variant of the recipe1 diagram at
 [`img/docker_compose_recipe_cmmf.png`](img/docker_compose_recipe_cmmf.png).
@@ -56,7 +56,7 @@ In `configs/media.conf`, replace `<<ADD_YOUR_IP_HERE>>` with the host machine's 
 m5_authority = 10.147.67.219:7778
 ````
 
-In `configs/initial-config.json`, replace every `<YOUR_MACHINE_IP_HERE>` placeholder with the
+In `configs/initial-config.json`, replace every `<<ADD_YOUR_IP_HERE>>` placeholder with the
 host machine's IP. The `CMMFvod` stream carries two aliases with the ports pre-set:
 
 ````
@@ -69,7 +69,7 @@ The other streams (`vodBBC`, `vodAxinom`, `livesim5GMAG`) each carry one alias
 with no port suffix; the default `application-server` on port `80` handles those.
 
 The CMMF Entry Point at `cmmf-origin-public/cmmf/config/vodConfig.json` also
-contains `<YOUR_MACHINE_IP_HERE>` placeholders inside its
+contains `<<ADD_YOUR_IP_HERE>>` placeholders inside its
 `serviceLocations[].baseUrl` values. Replace them with the same host IP so the
 client-side CMMF Media Access Client can reach the three AS instances directly.
 
