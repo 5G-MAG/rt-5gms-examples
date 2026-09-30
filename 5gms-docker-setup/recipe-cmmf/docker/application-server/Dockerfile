@@ -41,5 +41,10 @@ WORKDIR /5gms-application-server
 RUN python3 -m pip install --upgrade pip setuptools && \
     python3 -m pip install .
 
+# Report healthy once the M3 port is accepting connections, so the AF (which pushes
+# Content Hosting Configurations to every configured AS at startup) can wait for this.
+HEALTHCHECK --interval=2s --timeout=2s --retries=30 --start-period=2s \
+    CMD bash -c "(exec 3<>/dev/tcp/127.0.0.1/7777)" 2>/dev/null || exit 1
+
 # Command to run the application
 CMD ["5gms-application-server","-c","/etc/5gmag/as/conf/application-server.conf"]

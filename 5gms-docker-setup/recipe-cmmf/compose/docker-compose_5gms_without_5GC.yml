@@ -30,7 +30,8 @@ services:
             - ../configs/msaf.yaml:/etc/open5gs/alternate-msaf.yaml
             - ../af-reports:/af-reports
         depends_on:
-            - application-server
+            application-server:
+                condition: service_healthy
 
     application-provider:
         labels:

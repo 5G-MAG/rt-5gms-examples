@@ -33,8 +33,6 @@ services:
         volumes:
             - ../configs/application-server-cmmf-a.conf:/etc/5gmag/as/conf/application-server.conf
             - ../shared:/shared
-        depends_on:
-            - application-function
         networks:
             - default
 
@@ -50,8 +48,6 @@ services:
         volumes:
             - ../configs/application-server-cmmf-b.conf:/etc/5gmag/as/conf/application-server.conf
             - ../shared:/shared
-        depends_on:
-            - application-function
         networks:
             - default
 
@@ -69,3 +65,14 @@ services:
             - ../shared:/shared
         networks:
             - default
+
+    # The AF pushes M3 Content Hosting Configurations to every configured AS at startup,
+    # so it must not start until all four AS instances' M3 ports are actually ready.
+    application-function:
+        depends_on:
+            application-server-cmmf-a:
+                condition: service_healthy
+            application-server-cmmf-b:
+                condition: service_healthy
+            application-server-cmmf-c:
+                condition: service_healthy
