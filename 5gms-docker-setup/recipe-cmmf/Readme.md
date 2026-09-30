@@ -50,6 +50,11 @@ The overall shape follows the CMMF variant of the recipe1 diagram at
 
 Before starting the containers, provide two configuration changes.
 
+Run `tools/set-ip.sh <host-ip>` to substitute `<<ADD_YOUR_IP_HERE>>` in all
+three files below in one step (omit the IP to be prompted for it, or use
+`--dry-run` to preview the changes first). Run `tools/set-ip.sh --reset`
+to restore the placeholders before committing anything.
+
 In `configs/media.conf`, replace `<<ADD_YOUR_IP_HERE>>` with the host machine's IP, e.g.:
 
 ````
@@ -65,7 +70,7 @@ host machine's IP. The `CMMFvod` stream carries two aliases with the ports pre-s
 "domainNameAlias": "10.147.67.219:8003"
 ````
 
-The other streams (`vodBBC`, `vodAxinom`, `livesim5GMAG`) each carry one alias
+The other stream (`vodAxinom`) carries one alias
 with no port suffix; the default `application-server` on port `80` handles those.
 
 The CMMF Entry Point at `cmmf-origin-public/cmmf/config/vodConfig.json` also
