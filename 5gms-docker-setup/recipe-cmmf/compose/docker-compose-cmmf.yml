@@ -21,7 +21,7 @@ services:
         networks:
             - default
 
-    # Emulated CDN A for the CMMFvod stream, exposed on host port 8001.
+    # CDN A for the CMMFvod stream, exposed on host port 8001.
     application-server-cmmf-a:
         labels:
             monitor.group: "5G Media Streaming"
@@ -38,7 +38,7 @@ services:
         networks:
             - default
 
-    # Emulated CDN B for the CMMFvod stream, exposed on host port 8002.
+    # CDN B for the CMMFvod stream, exposed on host port 8002.
     application-server-cmmf-b:
         labels:
             monitor.group: "5G Media Streaming"
@@ -52,5 +52,20 @@ services:
             - ../shared:/shared
         depends_on:
             - application-function
+        networks:
+            - default
+
+    # CDN C for the CMMFvod stream, exposed on host port 8003.
+    application-server-cmmf-c:
+        labels:
+            monitor.group: "5G Media Streaming"
+        build:
+            context: ../
+            dockerfile: docker/application-server/Dockerfile
+        ports:
+            - "8003:80"
+        volumes:
+            - ../configs/application-server-cmmf-c.conf:/etc/5gmag/as/conf/application-server.conf
+            - ../shared:/shared
         networks:
             - default

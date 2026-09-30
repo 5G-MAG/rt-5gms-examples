@@ -33,6 +33,9 @@
         },
         {
           "domainNameAlias": "<YOUR_MACHINE_IP_HERE>:8002"
+        },
+        {
+          "domainNameAlias": "<YOUR_MACHINE_IP_HERE>:8003"
         }
       ],
       "consumptionReporting": {

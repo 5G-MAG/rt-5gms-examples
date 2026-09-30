@@ -186,6 +186,18 @@ msaf:
           urlPathPrefixFormat: /m4d/provisioning-session-{provisioningSessionId}/
           m3Port: 7777
           m3Host: application-server
+        - canonicalHostname: localhost
+          urlPathPrefixFormat: /m4d/provisioning-session-{provisioningSessionId}/
+          m3Port: 7777
+          m3Host: application-server-cmmf-a
+        - canonicalHostname: localhost
+          urlPathPrefixFormat: /m4d/provisioning-session-{provisioningSessionId}/
+          m3Port: 7777
+          m3Host: application-server-cmmf-b
+        - canonicalHostname: localhost
+          urlPathPrefixFormat: /m4d/provisioning-session-{provisioningSessionId}/
+          m3Port: 7777
+          m3Host: application-server-cmmf-c
     certificateManager: "@default-certmgr@"
     serverResponseCacheControl:
         - maxAge: 60

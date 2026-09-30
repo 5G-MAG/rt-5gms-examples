@@ -32,14 +32,16 @@ Media Entrypoint flow end-to-end:
   `CMMFvod` stream.
 - **`application-server-cmmf-b`** — a third 5GMS Application Server
   instance exposed on host port `8002`, emulating a second, independent CDN.
+- **`application-server-cmmf-c`** — a fourth 5GMS Application Server
+  instance exposed on host port `8003`, emulating a third, independent CDN.
 
-The two CMMF Application Server instances pull-ingest from the CMMF origin
+The three CMMF Application Server instances pull-ingest from the CMMF origin
 via M1 configuration written by `msaf-configuration` (running inside
 `application-provider`) from `configs/initial-config.json`. On M8, the resulting
-`ServiceListEntry` "VOD: CMMF" carries two entry points with
+`ServiceListEntry` "VOD: CMMF" carries three entry points with
 `contentType: "application/vnd.cmmf-configuration-information+json"`, one
 per CDN, matching the `distributionConfigurations[].domainNameAlias`
-placeholders `<YOUR_MACHINE_IP_HERE>:8001` / `:8002` in `configs/initial-config.json`.
+placeholders `<YOUR_MACHINE_IP_HERE>:8001` / `:8002` / `:8003` in `configs/initial-config.json`.
 
 The overall shape follows the CMMF variant of the recipe1 diagram at
 [`img/docker_compose_recipe_cmmf.png`](img/docker_compose_recipe_cmmf.png).
@@ -60,6 +62,7 @@ host machine's IP. The `CMMFvod` stream carries two aliases with the ports pre-s
 ````
 "domainNameAlias": "10.147.67.219:8001"
 "domainNameAlias": "10.147.67.219:8002"
+"domainNameAlias": "10.147.67.219:8003"
 ````
 
 The other streams (`vodBBC`, `vodAxinom`, `livesim5GMAG`) each carry one alias
@@ -68,13 +71,14 @@ with no port suffix; the default `application-server` on port `80` handles those
 The CMMF Entry Point at `cmmf-origin-public/cmmf/config/vodConfig.json` also
 contains `<YOUR_MACHINE_IP_HERE>` placeholders inside its
 `serviceLocations[].baseUrl` values. Replace them with the same host IP so the
-client-side CMMF Media Access Client can reach the two AS instances directly.
+client-side CMMF Media Access Client can reach the three AS instances directly.
 
 ## Optional Configuration
 
 The 5GMS Application Function and 5GMS Application Server configuration files are
-`configs/msaf.yaml`, `configs/application-server.conf`, `configs/application-server-cmmf-a.conf`, and
-`configs/application-server-cmmf-b.conf`, mounted into their respective containers at runtime.
+`configs/msaf.yaml`, `configs/application-server.conf`, `configs/application-server-cmmf-a.conf`,
+`configs/application-server-cmmf-b.conf`, and `configs/application-server-cmmf-c.conf`, mounted into
+their respective containers at runtime.
 
 For details on the underlying configuration options, see the
 [Application Function](https://5g-mag.github.io/Getting-Started/pages/5g-media-streaming/usage/application-function/configuration-5GMSAF.html)
@@ -100,7 +104,7 @@ cd 5gms-docker-setup/recipe-cmmf
 
 Start Docker Compose to build the containers and start the services. The recipe
 ships two compose files: a base file for the four services shared with
-`recipe1` and a CMMF overlay that adds the origin and the two emulated CDN
+`recipe1` and a CMMF overlay that adds the origin and the three emulated CDN
 instances. Combine them with `-f`:
 
 ```
@@ -147,6 +151,7 @@ The AF and AS ports are exposed on the host:
 * Application Server `M4` interface (default): `80`
 * Application Server `M4` interface (CMMF CDN A): `8001`
 * Application Server `M4` interface (CMMF CDN B): `8002`
+* Application Server `M4` interface (CMMF CDN C): `8003`
 * CMMF origin (direct): `3345`
 * Catalogue metadata (Simple Express Server): `3344`
 
@@ -161,6 +166,7 @@ Or via one of the AS instances (once `msaf-configuration` has provisioned it):
 ```
 curl http://<host-ip>:8001/m4d/provisioning-session-<id>/cmmf/config/vodConfig.json
 curl http://<host-ip>:8002/m4d/provisioning-session-<id>/cmmf/config/vodConfig.json
+curl http://<host-ip>:8003/m4d/provisioning-session-<id>/cmmf/config/vodConfig.json
 ```
 
 ## Tearing down
