@@ -16,5 +16,11 @@
     "description": "Emulated live DASH content coming from LiveSim2",
     "posterUrl": "posters/livesim.jpg",
     "mediaType": "tv_show"
+  },
+    "VOD: CMMF": {
+    "title": "VOD: CMMF",
+    "description": "VOD content coming from CMMF Entry Point",
+    "posterUrl": "posters/testcard.jpg",
+    "mediaType": "movie"
   }
 }
