@@ -13,10 +13,11 @@ and exposes reference points `M1`, `M4`, `M5` and `M8`.
 
 ![Architecture Diagram](recipe1/img/5gms-docker-recipe1.png)
 
-## CMMF-related changes
+## Docker Compose Recipe CMMF
 
-CMMF Media Entrypoint, according to the published [3GPP spec](https://www.etsi.org/deliver/etsi_ts/126500_126599/126512/19.02.00_60/ts_126512v190200p.pdf), 
-shall be made available via a URL. When mapped to the docker setup, the `m8.json` file will contain a URL to the CMMF Media Entrypoint.
+`recipe-cmmf` is a standalone recipe, alongside `recipe1`, that adds support for the CMMF Media
+Entrypoint, according to the published [3GPP spec](https://www.etsi.org/deliver/etsi_ts/126500_126599/126512/19.02.00_60/ts_126512v190200p.pdf).
+The Entrypoint shall be made available via a URL. When mapped to the docker setup, the `m8.json` file will contain a URL to the CMMF Media Entrypoint.
 The CMMF Media Entrypoint will then contain the URL to a MPD/m3u8 file. 
 According to the spec: "It is assumed that CMMF transport resources for the media resources referenced within this MPD are accessible
 from three service locations exposed by the 5GMSd AS at reference point M4d". With this in mind, the architecture of the docker setup
