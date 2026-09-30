@@ -49,14 +49,12 @@ RUN rm -rf /var/lib/apt/lists/* && apt-get clean && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Clone the repository
-RUN git clone --recurse-submodules https://github.com/5G-MAG/rt-5gms-application-function.git
+# Multi-Application-Server support is pending upstream review, see recipe-cmmf/Readme.md.
+RUN git clone --recurse-submodules --branch feature/multi-application-server-support \
+    https://github.com/5G-MAG/rt-5gms-application-function.git /rt-5gms-application-function
 
 # Set working directory
 WORKDIR /rt-5gms-application-function
-
-# Update submodules
-RUN git submodule update
 
 # Build the application
 RUN meson build && ninja -C build
