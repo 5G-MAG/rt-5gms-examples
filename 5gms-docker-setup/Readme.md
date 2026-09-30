@@ -22,7 +22,7 @@ According to the spec: "It is assumed that CMMF transport resources for the medi
 from three service locations exposed by the 5GMSd AS at reference point M4d". With this in mind, the architecture of the docker setup
 is modified as followed: 
 
-![Modified Docker Setup](recipe1/img/docker_compose_recipe_cmmf.png)
+![Modified Docker Setup](recipe-cmmf/img/docker_compose_recipe_cmmf.png)
 
 ### Changes to the client (upcoming)
 
