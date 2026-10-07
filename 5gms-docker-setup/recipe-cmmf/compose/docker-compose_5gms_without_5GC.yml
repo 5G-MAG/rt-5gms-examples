@@ -9,6 +9,7 @@ services:
             dockerfile: docker/application-server/Dockerfile
         ports:
             - "80:80"
+            - "1080:443"
         volumes:
             - ../configs/application-server.conf:/etc/5gmag/as/conf/application-server.conf
             - ../shared:/shared

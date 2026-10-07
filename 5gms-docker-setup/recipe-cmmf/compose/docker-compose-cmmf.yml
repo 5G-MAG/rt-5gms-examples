@@ -30,6 +30,7 @@ services:
             dockerfile: docker/application-server/Dockerfile
         ports:
             - "8001:80"
+            - "9001:443"
         volumes:
             - ../configs/application-server-cmmf-a.conf:/etc/5gmag/as/conf/application-server.conf
             - ../shared:/shared
@@ -45,6 +46,7 @@ services:
             dockerfile: docker/application-server/Dockerfile
         ports:
             - "8002:80"
+            - "9002:443"
         volumes:
             - ../configs/application-server-cmmf-b.conf:/etc/5gmag/as/conf/application-server.conf
             - ../shared:/shared
@@ -60,6 +62,7 @@ services:
             dockerfile: docker/application-server/Dockerfile
         ports:
             - "8003:80"
+            - "9003:443"
         volumes:
             - ../configs/application-server-cmmf-c.conf:/etc/5gmag/as/conf/application-server.conf
             - ../shared:/shared
@@ -84,3 +87,5 @@ services:
     application-provider:
         volumes:
             - ../cmmf-origin-public/cmmf/config:/etc/rt-5gms/cmmf-config
+            # Keeps the local CA that signs the AS certificates stable across restarts.
+            - ../m1-client-data:/var/cache/rt-5gms/m1-client
