@@ -83,7 +83,7 @@ ESCAPED_TARGET="$(printf '%s' "$TARGET" | sed -e 's/[&/\]/\\&/g')"
 SUBSTITUTIONS=(
     "$MEDIA_CONF"$'\t'"s/^(m5_authority = )[^:]+(:.*)\$/\\1${ESCAPED_TARGET}\\2/"
     "$INITIAL_CONFIG"$'\t'"s/(\"domainNameAlias\": \")[^\":]+(:[0-9]+)?(\")/\\1${ESCAPED_TARGET}\\2\\3/g"
-    "$VODCONFIG_TMPL"$'\t'"s#(http://)[^:/\"]+(:[0-9]+__M4_PATH_PREFIX__)#\\1${ESCAPED_TARGET}\\2#g"
+    "$VODCONFIG_TMPL"$'\t'"s#(https?://)[^:/\"]+(:[0-9]+__M4_PATH_PREFIX__)#\\1${ESCAPED_TARGET}\\2#g"
 )
 
 for entry in "${SUBSTITUTIONS[@]}"; do

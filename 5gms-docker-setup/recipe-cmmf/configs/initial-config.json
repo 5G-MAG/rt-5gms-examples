@@ -8,6 +8,10 @@
       "distributionConfigurations": [
         {
           "domainNameAlias": "<<ADD_YOUR_IP_HERE>>"
+        },
+        {
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:1080",
+          "certificateId": "axinom-tls"
         }
       ],
       "consumptionReporting": {
@@ -36,6 +40,18 @@
         },
         {
           "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:8003"
+        },
+        {
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:9001",
+          "certificateId": "cmmf-tls"
+        },
+        {
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:9002",
+          "certificateId": "cmmf-tls"
+        },
+        {
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:9003",
+          "certificateId": "cmmf-tls"
         }
       ],
       "consumptionReporting": {
