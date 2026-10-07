@@ -13,3 +13,6 @@ cmmf-origin-public/cmmf/config/vodConfig.json
 # application-provider's M1 data store, including the local CA's private key
 m1-client-data/*
 !m1-client-data/.gitkeep
+
+# CA certificate exported by tools/export-ca.sh
+certs/
