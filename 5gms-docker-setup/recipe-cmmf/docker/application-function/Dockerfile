@@ -49,8 +49,8 @@ RUN rm -rf /var/lib/apt/lists/* && apt-get clean && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Multi-Application-Server support is pending upstream review, see recipe-cmmf/Readme.md.
-RUN git clone --recurse-submodules --branch feature/multi-application-server-support \
+# Multi-Application-Server and HTTPS support
+RUN git clone --recurse-submodules --branch feature/multi-application-server-https-support \
     https://github.com/5G-MAG/rt-5gms-application-function.git /rt-5gms-application-function
 
 # Set working directory
