@@ -24,7 +24,10 @@ RUN python3 -m venv /opt/venv && \
     . /opt/venv/bin/activate && \
     python3 -m pip install --upgrade pip setuptools && \
     python3 -m pip install -r management-ui/requirements.txt && \
-    python3 -m pip install ./python
+    python3 -m pip install ./python && \
+    # LocalCACertificateSigner uses OpenSSL.crypto.load_certificate_request, removed in pyOpenSSL 26.
+    # to remove version pinning, will need to migrate application provider entirely to the modern cryptography.x509 library.
+    python3 -m pip install "pyOpenSSL<26"
 
 # Set the PATH environment variable to include the virtual environment
 ENV PATH="/opt/venv/bin:$PATH"
