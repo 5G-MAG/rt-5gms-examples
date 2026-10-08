@@ -1,0 +1,91 @@
+name: recipe-cmmf
+
+services:
+    # CMMF Entry Point origin: serves cmmf/config/vodConfig.json (rendered
+    # synchronously by application-provider's CmmfVodConfigFormatter, see
+    # configs/media.conf) and cmmf/media/* once supplied.
+    cmmf-origin-server:
+        labels:
+            monitor.group: "5G Media Streaming"
+        build:
+            context: ../
+            dockerfile: docker/simple-express-server/Dockerfile
+        ports:
+            - "3345:3344"
+        volumes:
+            - ../configs/cmmf-origin-server.conf:/etc/5gmag/ses/conf/simple-express-server.conf:ro
+            - ../cmmf-origin-public:/opt/simple-express-server/public
+        depends_on:
+            - application-function
+            - application-server
+        networks:
+            - default
+
+    # CDN A for the CMMFvod stream, exposed on host port 8001.
+    application-server-cmmf-a:
+        labels:
+            monitor.group: "5G Media Streaming"
+        build:
+            context: ../
+            dockerfile: docker/application-server/Dockerfile
+        ports:
+            - "8001:80"
+            - "9001:443"
+        volumes:
+            - ../configs/application-server-cmmf-a.conf:/etc/5gmag/as/conf/application-server.conf
+            - ../shared:/shared
+        networks:
+            - default
+
+    # CDN B for the CMMFvod stream, exposed on host port 8002.
+    application-server-cmmf-b:
+        labels:
+            monitor.group: "5G Media Streaming"
+        build:
+            context: ../
+            dockerfile: docker/application-server/Dockerfile
+        ports:
+            - "8002:80"
+            - "9002:443"
+        volumes:
+            - ../configs/application-server-cmmf-b.conf:/etc/5gmag/as/conf/application-server.conf
+            - ../shared:/shared
+        networks:
+            - default
+
+    # CDN C for the CMMFvod stream, exposed on host port 8003.
+    application-server-cmmf-c:
+        labels:
+            monitor.group: "5G Media Streaming"
+        build:
+            context: ../
+            dockerfile: docker/application-server/Dockerfile
+        ports:
+            - "8003:80"
+            - "9003:443"
+        volumes:
+            - ../configs/application-server-cmmf-c.conf:/etc/5gmag/as/conf/application-server.conf
+            - ../shared:/shared
+        networks:
+            - default
+
+    # The AF pushes M3 Content Hosting Configurations to every configured AS at startup,
+    # so it must not start until all four AS instances' M3 ports are actually ready.
+    application-function:
+        depends_on:
+            application-server-cmmf-a:
+                condition: service_healthy
+            application-server-cmmf-b:
+                condition: service_healthy
+            application-server-cmmf-c:
+                condition: service_healthy
+
+    # CmmfVodConfigFormatter (registered via configs/media.conf's m8outputs) writes
+    # vodConfig.json from cmmf-origin-public/cmmf/config/vodConfig.json.tmpl in the
+    # same msaf-configuration run that writes m8.json, so it needs write access to
+    # that directory alongside the base file's ../shared:/usr/share/nginx/html mount.
+    application-provider:
+        volumes:
+            - ../cmmf-origin-public/cmmf/config:/etc/rt-5gms/cmmf-config
+            # Keeps the local CA that signs the AS certificates stable across restarts.
+            - ../m1-client-data:/var/cache/rt-5gms/m1-client
