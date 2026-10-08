@@ -170,6 +170,7 @@ The AF and AS ports are exposed on the host:
 * Application Server `M4` interface (CMMF CDN A): `8001`
 * Application Server `M4` interface (CMMF CDN B): `8002`
 * Application Server `M4` interface (CMMF CDN C): `8003`
+* Application Server `M4` interface over HTTPS: `1080` (default), `9001`/`9002`/`9003` (CMMF CDN A/B/C)
 * CMMF origin (direct): `3345`
 * Catalogue metadata (Simple Express Server): `3344`
 
@@ -186,6 +187,33 @@ curl http://<host-ip>:8001/m4d/provisioning-session-<id>/cmmf/config/vodConfig.j
 curl http://<host-ip>:8002/m4d/provisioning-session-<id>/cmmf/config/vodConfig.json
 curl http://<host-ip>:8003/m4d/provisioning-session-<id>/cmmf/config/vodConfig.json
 ```
+
+## HTTPS / HTTP2
+
+Every Application Server instance also serves HTTPS with HTTP/2, in addition to plain HTTP:
+
+| Instance | HTTP host port | HTTPS host port |
+|----------|----------------|-----------------|
+| `application-server` (default) | `80` | `1080` |
+| `application-server-cmmf-a` | `8001` | `9001` |
+| `application-server-cmmf-b` | `8002` | `9002` |
+| `application-server-cmmf-c` | `8003` | `9003` |
+
+The certificates are provisioned over M1/M3 from the `certificateId` entries in `configs/initial-config.json`;
+no certificate files are created by hand. They are signed by a local CA kept in `m1-client-data/`, so the CA
+survives `docker compose down`/`up`. The `vodConfig.json` entry point advertises the `https://` ports `9001`-`9003`.
+
+Export the CA once the stack is up, then trust it instead of each leaf certificate:
+
+```
+tools/export-ca.sh
+curl --cacert certs/local-ca.pem --http2 -v https://<host-ip>:9001/m4d/provisioning-session-<id>/<path>
+```
+
+On Android:
+- Install it as a user CA
+(Settings > Security > Encryption & credentials > Install a certificate > CA certificate) or,
+- if developing the app, add the exported local-ca.pem file to raw res folder, add trust anchor block in your `network_security_config.xml` file, then add `android:networkSecurityConfig="@xml/network_security_config"` in the `AndroidManifest.xml` if not present.
 
 ## Tearing down
 
@@ -208,6 +236,13 @@ folder. There should be a `localhost` folder, and inside that folder, there shou
 similar folder with the IP of your host machine should be created. It also contains an `m8.json` file.
 
 If one or both of these folders are missing, create them manually and re-run the compose command above.
+
+### curl reports an untrusted certificate on the HTTPS ports
+
+The certificates are signed by the recipe's local CA, which clients do not trust by default. Run
+`tools/export-ca.sh` and pass `--cacert certs/local-ca.pem` to curl, or import that file into the browser/OS trust
+store. The script fails if `m1-client-data/ca-public.json` does not exist yet, which means the stack has not
+provisioned any certificate; check the `application-provider` logs.
 
 ### The `CMMFvod` stream returns no entry points on M8
 
