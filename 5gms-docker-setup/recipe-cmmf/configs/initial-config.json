@@ -1,0 +1,100 @@
+{
+  "aspId": "5GMAG",
+  "appId": "5G-MAG_Reference_Tools",
+  "streams": {
+    "vodAxinom": {
+      "name": "Axinom Demo Streams",
+      "ingestURL": "https://media.axprod.net/",
+      "distributionConfigurations": [
+        {
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>"
+        },
+        {
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:1080",
+          "certificateId": "axinom-tls"
+        }
+      ],
+      "consumptionReporting": {
+        "reportingInterval": 5,
+        "samplePercentage": 100,
+        "locationReporting": true,
+        "accessReporting": true
+      },
+      "metricsReporting": [
+        {
+          "reportingInterval": 10,
+          "samplePercentage": 100,
+          "samplingPeriod": 10
+        }
+      ]
+    },
+    "CMMFvod": {
+      "name": "5G-MAG CMMF Vod demo",
+      "ingestURL": "http://cmmf-origin-server:3344/",
+      "distributionConfigurations": [
+        {
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:8001"
+        },
+        {
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:8002"
+        },
+        {
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:8003"
+        },
+        {
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:9001",
+          "certificateId": "cmmf-tls"
+        },
+        {
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:9002",
+          "certificateId": "cmmf-tls"
+        },
+        {
+          "domainNameAlias": "<<ADD_YOUR_IP_HERE>>:9003",
+          "certificateId": "cmmf-tls"
+        }
+      ],
+      "consumptionReporting": {
+        "reportingInterval": 5,
+        "samplePercentage": 100,
+        "locationReporting": true,
+        "accessReporting": true
+      },
+      "metricsReporting": [
+        {
+          "reportingInterval": 10,
+          "samplePercentage": 100,
+          "samplingPeriod": 10
+        }
+      ]
+    }
+  },
+  "vodMedia": [
+    {
+      "name": "VoD: Axinom - Tears of Steel",
+      "stream": "vodAxinom",
+      "entryPoints": [
+        {
+          "relativePath": "TestVectors/Cmaf/clear_1080p_h264/manifest.mpd",
+          "contentType": "application/dash+xml",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "VOD: CMMF",
+      "stream": "CMMFvod",
+      "entryPoints": [
+        {
+          "relativePath": "cmmf/config/vodConfig.json",
+          "contentType": "application/vnd.cmmf-configuration-information+json",
+          "profiles": [
+            "urn:mpeg:dash:profile:isoff-live:2011"
+          ]
+        }
+      ]
+    }
+  ]
+}

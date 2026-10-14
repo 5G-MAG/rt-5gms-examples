@@ -1,0 +1,70 @@
+# Use an official Ubuntu as a parent image
+FROM ubuntu:24.04
+
+# Avoid any questions
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies
+RUN rm -rf /var/lib/apt/lists/* && apt-get clean && \
+    apt-get update -o Acquire::Check-Valid-Until=false && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository -y universe && \
+    apt-get update -o Acquire::Check-Valid-Until=false && \
+    apt-get install -y \
+    bison \
+    build-essential \
+    cmake \
+    curl \
+    default-jdk \
+    flex \
+    git \
+    libbson-dev \
+    libcurl4-gnutls-dev \
+    libgcrypt-dev \
+    libgnutls28-dev \
+    libidn11-dev \
+    libmicrohttpd-dev \
+    libmongoc-dev \
+    libnghttp2-dev \
+    libpcre2-dev \
+    libsctp-dev \
+    libssl-dev \
+    libtalloc-dev \
+    libtins-dev \
+    libyaml-dev \
+    meson \
+    ninja-build \
+    python3-aiofiles \
+    python3-build \
+    python3-h11 \
+    python3-h2 \
+    python3-httpx \
+    python3-openssl \
+    python3-pip \
+    python3-setuptools \
+    python3-venv \
+    python3-wheel \
+    python3-yaml \
+    wget && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Multi-Application-Server and HTTPS support
+RUN git clone --recurse-submodules --branch feature/multi-application-server-https-support \
+    https://github.com/5G-MAG/rt-5gms-application-function.git /rt-5gms-application-function
+
+# Set working directory
+WORKDIR /rt-5gms-application-function
+
+# Build the application
+RUN meson build && ninja -C build
+
+# Install the application
+RUN meson install --no-rebuild -C build
+
+# Create the shared/reports directory and set permissions
+RUN mkdir -p /usr/local/var/log/open5gs/reports && \
+    chmod -R 777 /usr/local/var/log/open5gs/reports
+
+# Command to run the application with the configuration file
+CMD ["/usr/local/bin/open5gs-msafd", "-c", "/etc/open5gs/alternate-msaf.yaml"]
