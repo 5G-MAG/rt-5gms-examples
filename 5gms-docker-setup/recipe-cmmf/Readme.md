@@ -48,12 +48,14 @@ The overall shape follows the CMMF variant of the recipe1 diagram at
 
 ## Required Configuration
 
-Before starting the containers, provide two configuration changes.
+Before starting the containers, make configuration changes as follows:
 
 Run `tools/set-ip.sh <host-ip>` to substitute `<<ADD_YOUR_IP_HERE>>` in all
 three files below in one step (omit the IP to be prompted for it, or use
 `--dry-run` to preview the changes first). Run `tools/set-ip.sh --reset`
 to restore the placeholders before committing anything.
+
+or manually,
 
 In `configs/media.conf`, replace `<<ADD_YOUR_IP_HERE>>` with the host machine's IP, e.g.:
 
@@ -128,7 +130,13 @@ the `M1` endpoint of the `Application Function`. It
 also creates an `m8.json` that serves as the starting point for the 5GMS Aware Application. For details refer to
 the [Tutorial - 5GMSd: Basic end to end setup](https://5g-mag.github.io/Getting-Started/pages/5g-media-streaming/tutorials/end-to-end.html)
 
-### Placing CMMF-encoded media
+### CMMF-encoded media
+
+#### Creating
+
+Follow the README.md in https://github.com/5G-MAG/rt-cmmf-encoder to encode CMMF content.
+
+#### Placing
 
 Drop the CMMF-encoded content into
 `cmmf-origin-public/cmmf/media/`. The seeded `vodConfig.json.tmpl` references a
@@ -136,7 +144,7 @@ manifest at `media/manifest.mpd` relative to the origin root; adjust that
 `applicationResourceLocators[0].locator` if the encoder produces a different
 filename.
 
-`vodConfig.json` itself is **generated**, not static: `application-provider`'s
+`vodConfig.json` itself is **generated**: `application-provider`'s
 `msaf-configuration` tool renders it from `vodConfig.json.tmpl` via `CmmfVodConfigFormatter`
 (a registered `M8Output`, see `configs/media.conf`'s `m8outputs` setting), in the same
 M1-sync step that writes `m8.json` — substituting the live `/m4d/provisioning-session-<id>/`
@@ -213,7 +221,7 @@ curl --cacert certs/local-ca.pem --http2 -v https://<host-ip>:9001/m4d/provision
 On Android:
 - Install it as a user CA
 (Settings > Security > Encryption & credentials > Install a certificate > CA certificate) or,
-- if developing the app, add the exported local-ca.pem file to raw res folder, add trust anchor block in your `network_security_config.xml` file, then add `android:networkSecurityConfig="@xml/network_security_config"` in the `AndroidManifest.xml` if not present.
+- if developing the app, add the exported local-ca.pem file to raw res folder, add trust anchor block in your `network_security_config.xml` file, then add `android:networkSecurityConfig="@xml/network_security_config"` in the `AndroidManifest.xml` if not present. (Note: using `-` is not allowed for `.pem` files in android, you will need to rename the file)
 
 ## Tearing down
 
